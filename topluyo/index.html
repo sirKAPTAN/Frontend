@@ -1,1 +1,846 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <html lang="tr"></html>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="main-screen">
+  <title></title>
+
+  <!-- Pencere Kontrolleri -->
+  <div class="window-controls">
+    <button id="ultraBtn" title="Ultra" class="ultra-button">
+      <img src="ico/Ultra.png" alt="Ultra">
+    </button>
+    <button id="primeBtn" title="Prime" class="prime-button">
+      <img src="ico/Prime.png" alt="Prime">
+    </button>
+    <button id="rubyBtn" title="Ruby" class="ruby-button">
+      <img src="ico/Ruby.png" alt="Ruby">
+    </button>
+    <div class="window-divider"></div>
+    <button id="messageBtn" title="Mesajlar" class="message-button">
+      <img src="ico/message.svg" alt="Messages">
+    </button>
+    <button id="adminBtn" title="Admin" class="admin-button">
+      <img src="ico/admin.svg" alt="Admin">
+    </button>
+    <button id="infoBtn" title="Bilgi" class="info-button">
+      <img src="ico/info.svg" alt="Bilgi">
+    </button>
+    <div id="miniMessageBox" class="mini-message-box" style="display:none;">
+      <div class="mini-message-header">Mesajlar</div>
+      <div class="mini-message-content">Buraya mesajlar gelecek...</div>
+      <button id="miniFriendsBtn" class="mini-friends-btn">Arkadaşlar</button>
+    </div>
+  </div>
+  
+      <!-- Independent box below window-controls with icons -->
+    <div class="window-controls-bottom-box">
+      <img src="ico/music.svg" alt="Müzik" class="bottom-box-icon" id="musicIcon" onclick="toggleMusicWindow()">
+      <img src="ico/hatırlatıcı.svg" alt="Hatırlatıcı" class="bottom-box-icon" id="reminderIcon" onclick="toggleReminderWindow()">
+      <img src="ico/hesapmakinasi.svg" alt="Hesap Makinesi" class="bottom-box-icon" id="calculatorIcon" onclick="toggleCalculatorWindow()">
+      <img src="ico/not.svg" alt="Not" class="bottom-box-icon" id="noteIcon" onclick="toggleNoteWindow()">
+      <img src="ico/shadownplayon.svg" alt="Shadow Play" class="bottom-box-icon" id="shadowPlayIcon" onclick="toggleShadowPlay()">
+    </div>
+
+    <!-- Haberler penceresi -->
+    <div id="newsWindow" class="news-window">
+      <div class="news-window-content">
+        <h2 class="news-title">Güncel Haber</h2>
+      </div>
+    </div>
+
+    <!-- Hava Durumu penceresi -->
+    <div id="weatherWindow" class="weather-window">
+      <div class="weather-window-content">
+        <h2 class="weather-title">Hava Durumu</h2>
+      </div>
+    </div>
+
+    <!-- Deprem penceresi -->
+    <div id="earthquakeWindow" class="earthquake-window">
+      <div class="earthquake-window-content">
+        <h2 class="earthquake-title">Son Depremler</h2>
+      </div>
+    </div>
+
+    <!-- Çeviri penceresi -->
+    <div id="translationWindow" class="translation-window">
+      <div class="translation-window-content">
+        <h2 class="translation-title">Çeviri</h2>
+      </div>
+    </div>
+
+    <!-- ChatGPT penceresi -->
+    <div id="chatgptWindow" class="chatgpt-window">
+      <div class="chatgpt-window-content">
+        <h2 class="chatgpt-title">ChatGPT</h2>
+      </div>
+    </div>
+
+    <!-- Face penceresi -->
+    <div id="faceWindow" class="face-window" style="display:none;">
+      <div class="face-window-content-group">
+        <div class="face-window-content">
+          <button class="face-close-btn" onclick="closeFaceWindow()">
+            <img src="ico/close.svg" alt="Kapat" style="width: 16px; height: 16px;">
+          </button>
+          <h2 class="face-title">Face</h2>
+          <!-- İçerik buraya gelecek -->
+        </div>
+        <div class="face-side-window">
+          <!-- Yan pencere içeriği -->
+        </div>
+      </div>
+    </div>
+  
+  <div class="window-controls-vertical-panel"></div>
+
+
+
+  <!-- Team Search Panel -->
+  <div id="team-search-panel" class="category-list" style="display:none;">
+    <button class="select-btn" style="width:100%;margin-top:8px;" onclick="teamSearchAction()">Takım Ara</button>
+  </div>
+
+  <!-- Video Oynatıcı -->
+  <div id="video-player" class="video-player" style="display:none;">
+    <div class="video-header">
+      <span class="video-title">Aranıyor...</span>
+      <button class="cancel-search-btn" onclick="closeVideo()">Aramayı İptal Et</button>
+    </div>
+    <video id="searching-video" autoplay loop muted>
+      <source src="ico/aranıyor.mp4" type="video/mp4">
+      Tarayıcınız video oynatmayı desteklemiyor.
+    </video>
+  </div>
+
+  <!-- Davet Listesi -->
+  <!-- <div id="invite-list" class="category-list" style="display:none;">
+    <input type="text" id="friend-search-input" onkeyup="filterFriends()" placeholder="Arkadaş ara..." class="search-input invite-search">
+    <div class="game-item"><span class="game-name">Ahmet</span><button class="select-btn" onclick="inviteFriend(this, 'Ahmet')">Davet Et</button></div>
+    <div class="game-item"><span class="game-name">Ayşe</span><button class="select-btn" onclick="inviteFriend(this, 'Ayşe')">Davet Et</button></div>
+    <div class="game-item"><span class="game-name">Mehmet</span><button class="select-btn" onclick="inviteFriend(this, 'Mehmet')">Davet Et</button></div>
+  </div> -->
+
+  <div id="video-overlay" style="display:none;"></div>
+
+  <!-- Açılış müziği -->
+  <audio id="introMusic" src="ico/indexopener.mp3" autoplay hidden></audio>
+
+  <!-- Mini Sidebar -->
+      <div class="mini-sidebar">
+    <div class="icon-button sidebar-main-icon" onclick="showTab('icon')"><img src="ico/icon.png" alt="icon" style="width:28px;height:28px;"></div>
+    <div class="mini-sidebar-divider"></div>
+    <div class="icon-button" id="homeBtn" title="Ana Sayfa" onclick="showMainPage()"><img src="ico/house.svg" alt="Home" style="width:22px;height:22px;"></div>
+    <div class="icon-button" title="Sunucu Oluştur" onclick="openServerCreatePopup()"><img src="ico/plus.svg" alt="Plus" style="width:22px;height:22px;"></div>
+    <div class="icon-button" title="Sunucu Keşfet" onclick="showTab('search-server')"><img src="ico/compass.svg" alt="Compass" style="width:22px;height:22px;"></div>
+    <div style="flex-grow: 1;"></div>
+  </div>
+
+  <!-- Sub Sidebar -->
+  <div class="sub-sidebar">
+    <!-- Yeni üst panel -->
+    <div class="top-horizontal-panel"></div>
+    <!-- Saat - kutu dışında bağımsız -->
+    <div class="clock-container">
+      <div class="clock-icons-left">
+        <img src="ico/haberler.svg" alt="Haberler" class="clock-icon" onclick="toggleNewsWindow()">
+        <img src="ico/havadurumu.svg" alt="Hava Durumu" class="clock-icon" onclick="toggleWeatherWindow()">
+        <img src="ico/deprem.svg" alt="Deprem" class="clock-icon" onclick="toggleEarthquakeWindow()">
+      </div>
+      <div class="clock" id="clock" onclick="toggleCalendarWindow()"></div>
+      <div class="clock-icons">
+        <img src="ico/çeviri.svg" alt="Çeviri" class="clock-icon" onclick="toggleTranslationWindow()">
+        <img src="ico/kur.svg" alt="Kur" class="clock-icon" onclick="toggleKurWindow()">
+        <img src="ico/chatgpt.svg" alt="ChatGPT" class="clock-icon" onclick="toggleChatGPTWindow()">
+      </div>
+    </div>
+    
+    <!-- Pencere kontrol butonları -->
+    <div class="window-controls-right">
+      <img src="ico/minimize.svg" alt="Minimize" class="clock-icon" onclick="minimizeWindow()">
+      <img src="ico/maximize.svg" alt="Maximize" class="clock-icon" onclick="maximizeWindow()">
+      <img src="ico/close.svg" alt="Close" class="clock-icon" onclick="closeWindow()">
+    </div>
+    
+    <!-- Sohbet Başlat kutusu -->
+    <div class="sidebar-box sohbet-baslat-box" style="height: 43px; min-height: 0; border-radius: 14px 14px 0 0;">
+      <div class="section-header">
+        <span class="section-title"><span class="yellow-text">Sohbet</span> <span class="blue-text">Başlat</span></span>
+      </div>
+    </div>
+    <!-- Katıl ve diğer butonlar kutusu -->
+    <div class="sidebar-box katil-box" style="margin-top: 0px;">
+      <button class="byteshop-btn" onclick="showTab('store')"><img src="ico/Mağaza.svg" alt="Mağaza" class="button-icon">Mağaza</button>
+      <button class="virello-btn" onclick="showTab('discoverTab')"><img src="ico/keşfet.svg" alt="Keşfet" class="button-icon">Keşfet</button>
+      <button class="crew-btn" onclick="showTab('friends')"><img src="ico/arkadaşlarım.svg" alt="Arkadaşlarım" class="button-icon">Arkadaşlar</button>
+    </div>
+    <!-- Direk Mesajlar ve DM listesi kutusu -->
+    <div class="sidebar-box dm-box">
+      <h3 class="sohbet-baslat" style="color: #fff; font-weight: normal;">Direk Mesajlar</h3>
+      <ul class="dm-list" id="dmList"></ul>
+    </div>
+    <!-- Bağımsız Sesli Sohbet kutusu -->
+    <div class="sidebar-box sesli-sohbet-box">
+      <div class="section-header">
+        <!-- <span class="section-title"><span class="yellow-text">Sesli</span> <span class="blue-text">Sohbet</span></span> -->
+      </div>
+      <!-- Sesli sohbet ikonları -->
+      <div class="sesli-sohbet-icons">
+        <img src="ico/sunucubul.svg" alt="Sunucu Bul" class="sesli-sohbet-icon" id="sunucuBulIcon" onclick="toggleSunucuBulWindow()">
+        <img src="ico/face.svg" alt="Face" class="sesli-sohbet-icon" onclick="toggleFaceWindow()" id="faceIcon">
+        <img src="ico/oyunbul.svg" alt="Oyun Bul" class="sesli-sohbet-icon" id="oyunBulIcon" onclick="toggleOyunBulWindow()">
+      </div>
+      <!-- Alt satır ikonları -->
+      <div class="sesli-sohbet-icons-alt">
+        <img src="ico/etkinlik.svg" alt="Etkinlik" class="sesli-sohbet-icon" id="etkinlikIcon" onclick="toggleEtkinlikWindow()">
+        <img src="ico/micon.svg" alt="Mikrofon" class="sesli-sohbet-icon" id="microphoneIcon" onclick="toggleMicrophone()">
+        <img src="ico/headphoneson.svg" alt="Kulaklık" class="sesli-sohbet-icon" id="headphoneIcon" onclick="toggleHeadphone()">
+      </div>
+      <!-- voice-warning kaldırıldı -->
+    </div>
+
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <!-- ICON TAB -->
+    <div id="icon" class="tab">
+    </div>
+
+    <!-- CREW TAB -->
+    <div id="crew" class="tab">
+    </div>
+
+    <div id="create-server" class="tab">
+    </div>
+
+    <div id="search-server" class="tab">
+    </div>
+
+    <div id="settings" class="tab">
+    </div>
+
+    <div id="case" class="tab">
+      <h1>🏱 Yıldız Kutusu</h1>
+      <p id="countdown">Geri sayım yükleniyor...</p>
+      <button onclick="openCase()" id="caseBtn">Kutuyu Aç</button>
+    </div>
+
+    <!-- Discover Tab -->
+    <div id="discover" class="tab">
+      <!-- Üst Buton Grubu: Renkli kutular -->
+      <div id="discover-headers">
+        <div class="chat-header red center-framed-panel" id="find-header" style="display:none;">
+          <div class="panel-header-content" style="display: flex; align-items: center; gap: 18px; width: 100%; margin-bottom: 8px; margin-top: 8px;">
+            <div class="panel-title-row" style="display: flex; align-items: center; gap: 8px;">
+              <img src="ico/katıl.svg" alt="Katıl" class="button-icon" style="width: 20px; height: 20px;">
+              <span style="font-size: 18px; font-weight: bold; color: #fff;">Katıl</span>
+              <span class="nav-dot">•</span>
+            </div>
+            <div class="room-controls" style="margin-top: 0; margin-bottom: 0; gap: 8px; margin-left:auto;">
+              <button class="discover-btn small red-btn">YüzYüze</button>
+              <button class="discover-btn small red-btn">Yarışma</button>
+              <button class="discover-btn small red-btn" id="categoryBtn" onclick="toggleGameCategoryList()">Takım Bul</button>
+              <input type="number" id="roomInput" placeholder="Oda no girin" oninput="updateJoinButtonState()">
+            </div>
+          </div>
+        </div>
+        <div class="chat-header green center-framed-panel" id="store-header" style="display:none;">
+          <div class="panel-header-content" style="display: flex; align-items: center; gap: 18px; width: 100%; margin-bottom: 8px; margin-top: 8px;">
+            <div class="panel-title-row" style="display: flex; align-items: center; gap: 8px;">
+              <img src="ico/Mağaza.svg" alt="Mağaza" class="button-icon" style="width: 20px; height: 20px;">
+              <span style="font-size: 18px; font-weight: bold; color: #fff;">Mağaza</span>
+              <span class="nav-dot">•</span>
+            </div>
+            <div class="room-controls" style="margin-top: 0; margin-bottom: 0; gap: 8px;">
+              <button class="discover-btn small byteshop-green-btn" id="kasaAcBtn">Kasa Aç</button>
+              <button class="discover-btn small byteshop-green-btn store-nav-btn active" id="storeHomeBtn">Ana Sayfa</button>
+              <button class="discover-btn small byteshop-green-btn store-nav-btn" id="platformBtn">Platform</button>
+              <input type="text" class="search-input" placeholder="Ara..." style="width: 90px; height: 24px; font-size: 12px; margin-left: 6px; vertical-align: middle; display: inline-block;">
+            </div>
+          </div>
+        </div>
+        <div class="chat-header yellow center-framed-panel" id="discoverTab-header" style="display:none;">
+          <div class="panel-header-content" style="display: flex; align-items: center; gap: 18px; width: 100%; margin-bottom: 8px; margin-top: 8px;">
+            <div class="panel-title-row" style="display: flex; align-items: center; gap: 8px;">
+              <img src="ico/keşfet.svg" alt="Keşfet" class="button-icon" style="width: 20px; height: 20px;">
+              <span style="font-size: 18px; font-weight: bold; color: #fff;">Keşfet</span>
+              <span class="nav-dot">•</span>
+            </div>
+            <div class="room-controls" style="margin-top: 0; margin-bottom: 0; gap: 8px;">
+              <button class="discover-btn small virello-yellow-btn discover-nav-btn" id="oynatBtn">Oynat Bakalım</button>
+              <button class="discover-btn small virello-yellow-btn discover-nav-btn active" id="yayindaBtn">Yayında</button>
+            </div>
+          </div>
+        </div>
+        <div id="discoverTab-content" class="discover-tab-content" style="display:none;">
+          <div id="discover-oynat-content" style="display:none;"></div>
+          <div id="discover-yayinda-content"></div>
+          <div id="discover-oyunsunucu-content" style="display:none;"></div>
+        </div>
+        <div class="chat-header red center-framed-panel" id="friends-header" style="display:none;">
+          <div class="panel-header-content" style="display: flex; align-items: center; gap: 18px; width: 100%; margin-bottom: 8px; margin-top: 8px;">
+            <div class="panel-title-row" style="display: flex; align-items: center; gap: 8px;">
+              <img src="ico/arkadaşlarım.svg" alt="Arkadaşlar" style="width: 20px; height: 20px; filter: brightness(0) invert(1);">
+              <span style="font-size: 18px; font-weight: bold; color: #fff;">Arkadaşlar</span>
+              <span class="nav-dot">•</span>
+            </div>
+            <div class="room-controls" style="margin-top: 0; margin-bottom: 0; gap: 8px;">
+              <button class="crew-nav-btn active" id="arkadaslarBtn">Arkadaşlar</button>
+              <button class="crew-nav-btn" id="cevrimiciBtn">Çevrim içi</button>
+              <button class="crew-nav-btn" id="tumuBtn">Tümü</button>
+              <button class="crew-nav-btn add-friend" id="arkadasEkleBtn">Arkadaş Ekle</button>
+            </div>
+          </div>
+        </div>
+        <div id="friends-content" class="discover-tab-content" style="display:none; align-items: center; justify-content: center; width: 100%; height: 100%;">
+          <div id="friends-arkadaslar-content" style="display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; color: #fff; font-size: 18px;">
+            
+          </div>
+          <div id="friends-tumu-content" style="display: none; align-items: center; justify-content: center; width: 100%; height: 100%; color: #fff; font-size: 18px;">
+            Tümü
+          </div>
+          <div id="friends-ekle-content" style="display: none; align-items: center; justify-content: center; width: 100%; height: 100%; color: #fff; font-size: 18px;">
+            Arkadaş Ekle
+          </div>
+        </div>
+      </div>
+      <!-- Alt Boş Alan -->
+      <div class="discover-content-area">
+        <!-- Katıl/Find Tab Content -->
+        <div id="find-content" class="discover-tab-content" style="display:none;">
+           <!-- center-window-box kaldırıldı -->
+           <!-- <div class="small-center-window-box"></div> -->
+           <!-- participants-grid-container ve içindeki numaralar kaldırıldı -->
+        </div>
+        <!-- Arkadaşlar Tabı İçin Ortada Küçük Pencere -->
+        <div id="friends-content" class="discover-tab-content" style="display:none; align-items: center; justify-content: center; width: 100%; height: 100%;">
+          <div id="friends-arkadaslar-content" style="display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; color: #fff; font-size: 18px;">
+            
+          </div>
+          <div id="friends-tumu-content" style="display: none; align-items: center; justify-content: center; width: 100%; height: 100%; color: #fff; font-size: 18px;">
+            Tümü
+          </div>
+          <div id="friends-ekle-content" style="display: none; align-items: center; justify-content: center; width: 100%; height: 100%; color: #fff; font-size: 18px;">
+            Arkadaş Ekle
+          </div>
+        </div>
+        
+        <!-- Store Content -->
+        <div id="store-content" class="discover-tab-content" style="display:none;">
+          <div id="store-home-content"></div>
+          <div id="store-platform-content" style="display:none;"></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="servers" class="tab"><h1>🪐 Sunucular</h1></div>
+
+    <div id="dm-view" class="tab">
+      <h1 id="dm-user">Özel Mesaj</h1>
+      <div id="dm-content">Mesajlar burada görünecek.</div>
+    </div>
+  </div>
+
+
+  <!-- Ortak dinamik popup pencere -->
+  <div class="center-header-popup" id="centerPopup" style="display: none;">
+    <div style="position: absolute; top: 10px; left: 50%; transform: translateX(-50%); display: flex; flex-direction: row; align-items: center;">
+      <!-- <span style="font-size: 18px; line-height: 1; color: #fff; margin-right: 8px;">•</span> -->
+      <span id="centerPopupText" style="font-size: 15px; font-weight: 500; color: #fff; margin-top: -5px;">Yarışma</span>
+    </div>
+    
+    <!-- Arkadaşlar İçeriği -->
+    <div id="centerPopupFriendsContent" style="width: 100%; height: 100%; display: none; align-items: center; justify-content: center; position: relative;">
+      <div style="display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; color: #fff; font-size: 18px;">
+        
+      </div>
+    </div>
+    <div id="takimBulPopup" style="width: 100%; height: 100%; display: none; align-items: center; justify-content: center; position: relative;">
+      <div style="height: 700px; background: rgba(30,30,30,0.95); border-radius: 16px; box-shadow: 0 4px 24px rgba(0,0,0,0.2); border: 2px solid #444; display: flex; align-items: flex-start; justify-content: space-between; z-index: 10; position: absolute; top: 48px; left: 10px; right: 10px; width: auto; transform: none;">
+        <!-- 731.5px x 646px Ana Popup'ın Ortasındaki Pencere (Alt Sabit) -->
+<div style="width: 731.5px; height: 646px; background: rgba(80,80,80,0.9); border-radius: 0px 0px 8px 8px; border: 1px solid #555; border-top: 2px solid #555; border-bottom: 2px solid #555; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.3); position: absolute; bottom: 52.5px; left: 50%; transform: translateX(-50%); z-index: 15;">
+  <button id="startShare" style="position:absolute;top:20px;left:20px;z-index:2;">Ekranını Paylaş</button>
+  <video id="screenVideo" autoplay style="width:100%;height:100%;background:#222;border-radius:0 0 8px 8px;"></video>
+</div>
+        
+        <!-- 50x50px Alt Kutu -->
+        <div style="width: 320px; height: 45px; background: rgba(80,80,80,0.9); border-radius: 8px; border: 1px solid #555; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.3); position: absolute; bottom: 2.5px; left: 50%; transform: translateX(-50%); z-index: 15;">
+        </div>
+        
+        <div style="width: 230px; height: 680px; background: rgba(60,60,60,0.98); border-radius: 0 18px 18px 0; box-shadow: 0 2px 16px rgba(0,0,0,0.18); border: 2px solid #666; display: flex; flex-direction: column; position: absolute; right: -2px; top: -2px; margin: 0; padding: 20px 20px 0 20px;">
+          <!-- Mesaj Gönderme Kutusu -->
+          <div style="display: flex; gap: 8px; align-items: center; margin-top: auto; margin-bottom: 5px; margin-right: 35px; margin-left: -20px;">
+            <div style="position: relative; flex: 1;">
+              <input type="text" placeholder="Mesajınızı yazın..." style="width: 100%; padding: 8px 35px 8px 12px; border-radius: 6px; border: 1px solid #555; background: rgba(40,40,40,0.9); color: #fff; font-size: 12px; outline: none;">
+              <button style="position: absolute; right: -42px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; padding: 0;">
+                <img src="ico/send.svg" alt="Gönder" style="width: 16px; height: 16px; filter: invert(1) brightness(0.8);">
+              </button>
+            </div>
+          </div>
+        </div>
+        
+        <div style="width: 230px; height: 680px; background: rgba(60,60,60,0.98); border-radius: 18px 0 0 18px; box-shadow: 0 2px 16px rgba(0,0,0,0.18); border: 2px solid #666; display: flex; flex-direction: column; position: absolute; left: -2px; top: -2px; margin: 0; padding: 20px 20px 0 20px; overflow-y: hidden;">
+          <!-- Oyun Seçimi -->
+          <div id="popup-game-list" style="display: flex; padding-bottom: 0px; margin-bottom: 40px; height: 100%; flex-direction: column;">
+            <h3 style="color: #fff; margin-bottom: 15px;">Oyun Seç</h3>
+            <input type="text" id="popup-game-search" onkeyup="filterPopupGames()" placeholder="Oyun ara..." style="width: 100%; padding: 8px; margin-bottom: 10px; border-radius: 8px; border: 1px solid #444; background: #333; color: #fff;">
+            <div id="popup-game-items" style="flex: 1; overflow-y: auto; display: flex; flex-direction: column; justify-content: space-between;">
+              <!-- Oyun listesi buraya gelecek -->
+            </div>
+          </div>
+          
+          <!-- Rank Seçimi -->
+          <div id="popup-rank-list" style="margin-bottom: 40px; height: 100%; display: none; flex-direction: column;">
+            <h3 style="color: #fff; margin-bottom: 15px;">Rank Seç</h3>
+            <input type="text" id="popup-rank-search" onkeyup="filterPopupRanks()" placeholder="Rank ara..." style="width: 100%; padding: 8px; margin-bottom: 10px; border-radius: 8px; border: 1px solid #444; background: #333; color: #fff;">
+            <div id="popup-rank-items" style="flex: 1; overflow-y: auto;">
+              <!-- Rank listesi buraya gelecek -->
+            </div>
+          </div>
+          
+          <!-- Dil Seçimi -->
+          <div id="popup-language-list" style="margin-bottom: 40px; height: 100%; display: none; flex-direction: column;">
+            <h3 style="color: #fff; margin-bottom: 15px;">Dil Seç</h3>
+            <input type="text" id="popup-lang-search" onkeyup="filterPopupLanguages()" placeholder="Dil ara..." style="width: 100%; padding: 8px; margin-bottom: 10px; border-radius: 8px; border: 1px solid #444; background: #333; color: #fff;">
+            <div id="popup-lang-items" style="flex: 1; overflow-y: auto;">
+              <!-- Dil listesi buraya gelecek -->
+            </div>
+          </div>
+          
+          <!-- Takım Ara -->
+          <div id="popup-team-search" style="display: none; height: 100%;">
+            <h3>Takım Ara</h3>
+            <div id="selected-info" style="color: #fff; text-align: center; font-size: 15px; min-height: 28px; margin-bottom: 10px; display: flex; flex-direction: column; gap: 8px; width: 100%;"></div>
+            <div class="takim-ara-btn-group">
+              <button id="takimAraBtn" onclick="popupTeamSearchAction()">Takım Ara</button>
+              <button id="ozelOdaAraBtn" onclick="popupOzelOdaAraAction()">Özel Oda Ara</button>
+              <button id="herIkisiniAraBtn" onclick="popupHerIkisiniAraAction()">Her İkisini Ara</button>
+            </div>
+            
+            <!-- Takım Arama Animasyonu -->
+            <div class="takim-arama-animasyon" id="takimAramaAnimasyon" style="display: none;">
+              <div class="arama-baslik">Takım Aranıyor...</div>
+              <video autoplay="" loop="" muted="">
+                <source src="ico/aranıyor.mp4" type="video/mp4">
+                Tarayıcınız video oynatmayı desteklemiyor.
+              </video>
+            </div>
+          </div>
+          
+          <!-- Video Oynatıcı (Sol Panel) -->
+          <div id="popup-video-player" style="display: none; margin-bottom: 40px;">
+            <h3 style="color: #fff; margin-bottom: 15px;">Aranıyor...</h3>
+            <div style="width: 100%; height: 200px; background: #000; border-radius: 8px; overflow: hidden; position: relative;">
+              <video id="popup-searching-video" autoplay="" loop="" muted="" style="width: 100%; height: 100%; object-fit: cover;">
+                <source src="ico/aranıyor.mp4" type="video/mp4">
+                Tarayıcınız video oynatmayı desteklemiyor.
+              </video>
+              <button onclick="closePopupVideo()" style="position: absolute; top: 10px; right: 10px; padding: 8px 12px; background: #ff4444; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 12px;">İptal Et</button>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Alt Kutu - Popup'ın altında -->
+        <div style="width: 400px; height: 75px; background: rgba(40,40,40,0.95); border-radius: 8px; border: 2px solid #555; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.3); position: absolute; top: 720px; left: 50%; transform: translateX(-50%); z-index: 15;">
+          <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; padding: 0 5px;">
+            <div style="width: 65px; height: 65px; background: rgba(60,60,60,0.9); border-radius: 50%; border: 2px solid #666; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s ease;">
+              <span style="color: #fff; font-size: 32px; font-weight: bold; line-height: 1; display: flex; align-items: center; justify-content: center; margin-top: -5px;">+</span>
+            </div>
+            <div style="width: 65px; height: 65px; background: rgba(60,60,60,0.9); border-radius: 50%; border: 2px solid #666; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s ease;">
+              <span style="color: #fff; font-size: 32px; font-weight: bold; line-height: 1; display: flex; align-items: center; justify-content: center; margin-top: -5px;">+</span>
+            </div>
+            <div style="width: 65px; height: 65px; background: rgba(60,60,60,0.9); border-radius: 50%; border: 2px solid #666; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s ease;">
+              <span style="color: #fff; font-size: 32px; font-weight: bold; line-height: 1; display: flex; align-items: center; justify-content: center; margin-top: -5px;">+</span>
+            </div>
+            <div style="width: 65px; height: 65px; background: rgba(60,60,60,0.9); border-radius: 50%; border: 2px solid #666; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s ease;">
+              <span style="color: #fff; font-size: 32px; font-weight: bold; line-height: 1; display: flex; align-items: center; justify-content: center; margin-top: -5px;">+</span>
+            </div>
+            <div style="width: 65px; height: 65px; background: rgba(60,60,60,0.9); border-radius: 50%; border: 2px solid #666; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s ease;">
+              <span style="color: #fff; font-size: 32px; font-weight: bold; line-height: 1; display: flex; align-items: center; justify-content: center; margin-top: -5px;">+</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+
+    </div>
+  </div>
+
+
+
+  <!-- Sunucu Oluştur Popup -->
+  <div id="serverCreatePopup" class="server-create-popup" style="display: none;">
+    <div class="server-create-content">
+      <div class="server-create-header">
+        <h3>Sunucu Oluştur</h3>
+        <button class="close-popup-btn" onclick="closeServerCreatePopup()">×</button>
+      </div>
+      <div class="server-create-body">
+        <div class="server-create-buttons">
+          <button class="server-btn">Kendim Sunucu Oluşturayım</button>
+          <button class="server-btn" onclick="openServerDiscover()">Keşfet Sunucuya Katıl</button>
+          <div class="invite-text">Zaten Davetin Var Mı?</div>
+          <button class="server-btn">Bir Sunucu Katıl</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Kur penceresi -->
+  <div id="kurWindow" class="kur-window">
+    <div class="kur-window-content">
+      <h2 class="kur-title">Kur</h2>
+    </div>
+  </div>
+
+  <!-- Takvim penceresi -->
+  <div id="calendarWindow" class="calendar-window">
+    <div class="calendar-window-content">
+      <h2 class="calendar-title">Takvim</h2>
+      <div id="calendar"></div>
+    </div>
+  </div>
+
+  <!-- Hatırlatıcı penceresi -->
+  <div id="reminderWindow" class="reminder-window">
+    <div class="reminder-window-content">
+      <h2 class="reminder-title">Hatırlatıcı</h2>
+      <form id="alarmForm" onsubmit="setAlarm(event)">
+        <label for="alarmTime">Alarm Saati:</label>
+        <input type="time" id="alarmTime" required style="width: 120px;">
+        <br><br>
+        <label for="alarmNote">Not:</label>
+        <input type="text" id="alarmNote" maxlength="40" style="width: 120px;">
+        <br><br>
+        <button type="submit">Kur</button>
+      </form>
+      <div id="alarmMessage" style="margin-top:10px;font-size:13px;"></div>
+    </div>
+  </div>
+
+  <!-- Hesap makinesi penceresi -->
+  <div id="calculatorWindow" class="calculator-window">
+    <div class="calculator-window-content">
+      <h2 class="calculator-title">Hesap Makinesi</h2>
+      <div class="calculator-display">
+        <input type="text" id="calculatorDisplay" readonly>
+      </div>
+      <div class="calculator-buttons">
+        <button onclick="clearDisplay()">C</button>
+        <button onclick="deleteLastChar()">⌫</button>
+        <button onclick="appendToDisplay('/')">/</button>
+        <button onclick="appendToDisplay('*')">×</button>
+        <button onclick="appendToDisplay('7')">7</button>
+        <button onclick="appendToDisplay('8')">8</button>
+        <button onclick="appendToDisplay('9')">9</button>
+        <button onclick="appendToDisplay('-')">-</button>
+        <button onclick="appendToDisplay('4')">4</button>
+        <button onclick="appendToDisplay('5')">5</button>
+        <button onclick="appendToDisplay('6')">6</button>
+        <button onclick="appendToDisplay('+')">+</button>
+        <button onclick="appendToDisplay('1')">1</button>
+        <button onclick="appendToDisplay('2')">2</button>
+        <button onclick="appendToDisplay('3')">3</button>
+        <button onclick="calculate()" class="equals">=</button>
+        <button onclick="appendToDisplay('0')" class="zero">0</button>
+        <button onclick="appendToDisplay('.')">.</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Not defteri penceresi -->
+  <div id="noteWindow" class="note-window">
+    <div class="note-window-content">
+      <textarea id="noteTextarea" placeholder="Notunuz..."></textarea>
+    </div>
+  </div>
+
+  <!-- Oyun Bul penceresi -->
+  <div id="oyunBulWindow" class="oyunbul-window" style="display:none;">
+    <div class="oyunbul-window-content">
+      <button class="oyunbul-close-btn" onclick="closeOyunBulWindow()">
+        <img src="ico/close.svg" alt="Kapat" style="width: 16px; height: 16px;">
+      </button>
+      <h2 class="oyunbul-title">Ne Oynamak İstiyorsunuz?</h2>
+      <div class="oyun-search-container">
+        <input type="text" id="oyunSearchInput" class="oyun-search-input" placeholder="Oyun ara..." onkeyup="filterOyunlar()">
+      </div>
+      <div class="oyun-buttons-container" id="gameButtonsContainer">
+        <button class="oyun-btn" onclick="selectGame('warzone')" title="Call of Duty Warzone">
+          <img src="ico/Game/Call%20of%20Duty%20Warzone.jpg" alt="Call of Duty Warzone" class="oyun-icon">
+        </button>
+        <button class="oyun-btn" onclick="selectGame('cs2')" title="Counter-Strike 2">
+          <img src="ico/Game/Counter-Strike%202.jpg" alt="Counter-Strike 2" class="oyun-icon">
+        </button>
+        <button class="oyun-btn" onclick="selectGame('gta')" title="GTA Online">
+          <img src="ico/Game/GTA%20Online.jpg" alt="GTA Online" class="oyun-icon">
+        </button>
+        <button class="oyun-btn" onclick="selectGame('lol')" title="League of Legends">
+          <img src="ico/Game/Lol.jpg" alt="League of Legends" class="oyun-icon">
+        </button>
+        <button class="oyun-btn" onclick="selectGame('minecraft')" title="Minecraft">
+          <img src="ico/Game/Minecraaft.jpg" alt="Minecraft" class="oyun-icon">
+        </button>
+        <button class="oyun-btn" onclick="selectGame('r6')" title="Rainbow Six Siege">
+          <img src="ico/Game/Rainbow%20Six%20Siege.jpg" alt="Rainbow Six Siege" class="oyun-icon">
+        </button>
+        <button class="oyun-btn" onclick="selectGame('valorant')" title="Valorant">
+          <img src="ico/Game/Valorant.jpg" alt="Valorant" class="oyun-icon">
+        </button>
+        <button class="oyun-btn" onclick="selectGame('roblox')" title="Roblox">
+          <img src="ico/Game/Roblox.jpg" alt="Roblox" class="oyun-icon">
+        </button>
+        <button class="oyun-btn" onclick="selectGame('pubg')" title="PUBG">
+          <img src="ico/Game/Pubg.jpg" alt="PUBG" class="oyun-icon">
+        </button>
+        <button class="oyun-btn" onclick="selectGame('fortnite')" title="Fortnite">
+          <img src="ico/Game/Fornite.jpg" alt="Fortnite" class="oyun-icon">
+        </button>
+        <button class="oyun-btn" onclick="selectGame('apex')" title="Apex Legends">
+          <img src="ico/Game/apex legend.jpg" alt="Apex Legends" class="oyun-icon">
+        </button>
+        <button class="oyun-btn" onclick="selectGame('dota2')" title="Dota 2">
+          <img src="ico/Game/Dota 2.jpg" alt="Dota 2" class="oyun-icon">
+        </button>
+        <button class="oyun-btn" onclick="selectGame('overwatch2')" title="Overwatch 2">
+          <img src="ico/Game/Overwatch%202.jpg" alt="Overwatch 2" class="oyun-icon">
+        </button>
+        <button class="oyun-btn" onclick="selectGame('tf2')" title="Team Fortress 2">
+          <img src="ico/Game/Team%20Fortress%202.jpg" alt="Team Fortress 2" class="oyun-icon">
+        </button>
+        <button class="oyun-btn" onclick="selectGame('destiny2')" title="Destiny 2">
+          <img src="ico/Game/Destiny%202.jpg" alt="Destiny 2" class="oyun-icon">
+        </button>
+        <button class="oyun-btn" onclick="selectGame('warframe')" title="Warframe">
+          <img src="ico/Game/Warframe.jpg" alt="Warframe" class="oyun-icon">
+        </button>
+        <button class="oyun-btn" onclick="selectGame('tarkov')" title="Escape from Tarkov">
+          <img src="ico/Game/Escape%20from%20Tarkov.jpg" alt="Escape from Tarkov" class="oyun-icon">
+        </button>
+        <button class="oyun-btn" onclick="selectGame('finals')" title="The Finals">
+          <img src="ico/Game/The%20Finals.jpg" alt="The Finals" class="oyun-icon">
+        </button>
+        <button class="oyun-btn" onclick="selectGame('ark')" title="ARK Survival Ascended">
+          <img src="ico/Game/ARK%20%20Survival%20Ascended.jpg" alt="ARK Survival Ascended" class="oyun-icon">
+        </button>
+        <button class="oyun-btn" onclick="selectGame('rust')" title="Rust">
+          <img src="ico/Game/Rust.jpg" alt="Rust" class="oyun-icon">
+        </button>
+        <button class="oyun-btn" onclick="selectGame('repo')" title="Repo">
+          <img src="ico/Game/Repo.jpg" alt="Repo" class="oyun-icon">
+        </button>
+        <button class="oyun-btn" onclick="selectGame('bdo')" title="Black Desert Online">
+          <img src="ico/Game/Black%20Desert%20Online.jpg" alt="Black Desert Online" class="oyun-icon">
+        </button>
+        <button class="oyun-btn" onclick="selectGame('warthunder')" title="War Thunder">
+          <img src="ico/Game/War%20Thunder.jpg" alt="War Thunder" class="oyun-icon">
+        </button>
+        <button class="oyun-btn" onclick="selectGame('eso')" title="Elder Scrolls Online">
+          <img src="ico/Game/Elder%20Scrolls%20Online.jpg" alt="Elder Scrolls Online" class="oyun-icon">
+        </button>
+
+        <button class="oyun-btn" onclick="selectGame('palworld')" title="Palworld">
+          <img src="ico/Game/Palworld.jpg" alt="Palworld" class="oyun-icon">
+        </button>
+        <button class="oyun-btn" onclick="selectGame('monsterhunter')" title="Monster Hunter Wilds">
+          <img src="ico/Game/Monster%20Hunter%20Wilds.jpg" alt="Monster Hunter Wilds" class="oyun-icon">
+        </button>
+        <button class="oyun-btn" onclick="selectGame('rematch')" title="Rematch">
+          <img src="ico/Game/Rematch.jpg" alt="Rematch" class="oyun-icon">
+        </button>
+        <button class="oyun-btn" onclick="selectGame('fbc')" title="FBC Firebreak">
+          <img src="ico/Game/FBC%20Firebreak.jpg" alt="FBC Firebreak" class="oyun-icon">
+        </button>
+        <button class="oyun-btn" onclick="selectGame('mechabreak')" title="Mecha Break">
+          <img src="ico/Game/Mecha%20Break.jpg" alt="Mecha Break" class="oyun-icon">
+        </button>
+        <button class="oyun-btn" onclick="selectGame('battlebit')" title="BattleBit Remastered">
+          <img src="ico/Game/BattleBit%20Remastered.jpg" alt="BattleBit Remastered" class="oyun-icon">
+        </button>
+
+        <button class="oyun-btn" onclick="selectGame('humanfallflat')" title="Human Fall Flat">
+          <img src="ico/Game/Human%20Fall%20Flat.jpg" alt="Human Fall Flat" class="oyun-icon">
+        </button>
+        <button class="oyun-btn" onclick="selectGame('ittakestwo')" title="It Takes Two">
+          <img src="ico/Game/It%20Takes%20Two.jpg" alt="It Takes Two" class="oyun-icon">
+        </button>
+        <button class="oyun-btn" onclick="selectGame('brawlhalla')" title="Brawlhalla">
+          <img src="ico/Game/Brawlhalla.jpg" alt="Brawlhalla" class="oyun-icon">
+        </button>
+        <button class="oyun-btn" onclick="selectGame('dayz')" title="DayZ">
+          <img src="ico/Game/DayZ.jpg" alt="DayZ" class="oyun-icon">
+        </button>
+
+        <button class="oyun-btn" onclick="selectGame('footballmanager')" title="Football Manager 2024">
+          <img src="ico/Game/Football%20Manager%202024.jpg" alt="Football Manager 2024" class="oyun-icon">
+        </button>
+        <button class="oyun-btn" onclick="selectGame('naraka')" title="Naraka Bladepoint">
+          <img src="ico/Game/Naraka%20Bladepoint.jpg" alt="Naraka Bladepoint" class="oyun-icon">
+        </button>
+
+        <button class="oyun-btn" onclick="selectGame('dbd')" title="Dead by Daylight">
+          <img src="ico/Game/Dead%20by%20Daylight.jpg" alt="Dead by Daylight" class="oyun-icon">
+        </button>
+        <button class="oyun-btn" onclick="selectGame('stardewvalley')" title="Stardew Valley">
+          <img src="ico/Game/Stardew%20Valley.jpg" alt="Stardew Valley" class="oyun-icon">
+        </button>
+        <button class="oyun-btn" onclick="selectGame('marvelrivals')" title="Marvel Rivals">
+          <img src="ico/Game/Marvel%20Rivals.jpg" alt="Marvel Rivals" class="oyun-icon">
+        </button>
+      
+      </div>
+      
+      <!-- Rank seçim container'ı -->
+      <div class="rank-buttons-container" id="rankButtonsContainer" style="display: none;">
+        <button class="geri-btn" onclick="goBackToGameSelection()" title="Geri">
+          <span class="geri-text">← Geri</span>
+        </button>
+        <button class="rank-btn" onclick="selectRank('yenibaslayan')" title="Yeni Başlayan">
+          <img src="ico/Game/Rank/yenibaşlayan.png" alt="Yeni Başlayan" class="rank-icon">
+          <span class="rank-name">Yeni Başlayan</span>
+        </button>
+        <button class="rank-btn" onclick="selectRank('bronz')" title="Bronz">
+          <img src="ico/Game/Rank/bronz.png" alt="Bronz" class="rank-icon">
+          <span class="rank-name">Bronz</span>
+        </button>
+        <button class="rank-btn" onclick="selectRank('gumus')" title="Gümüş">
+          <img src="ico/Game/Rank/gümüş.png" alt="Gümüş" class="rank-icon">
+          <span class="rank-name">Gümüş</span>
+        </button>
+        <button class="rank-btn" onclick="selectRank('gold')" title="Gold">
+          <img src="ico/Game/Rank/gold.png" alt="Gold" class="rank-icon">
+          <span class="rank-name">Gold</span>
+        </button>
+        <button class="rank-btn" onclick="selectRank('platin')" title="Platin">
+          <img src="ico/Game/Rank/platin.png" alt="Platin" class="rank-icon">
+          <span class="rank-name">Platin</span>
+        </button>
+        <button class="rank-btn" onclick="selectRank('elmas')" title="Elmas">
+          <img src="ico/Game/Rank/elmas.png" alt="Elmas" class="rank-icon">
+          <span class="rank-name">Elmas</span>
+        </button>
+      </div>
+      
+      <!-- Dil seçim container'ı -->
+      <div class="dil-buttons-container" id="dilButtonsContainer" style="display: none;">
+        <button class="geri-btn" onclick="goBackToRankSelection()" title="Geri">
+          <span class="geri-text">← Geri</span>
+        </button>
+        
+        <!-- Üst satır - 6 dil -->
+        <div class="dil-row">
+          <button class="dil-btn" onclick="selectDil('rastgele')" title="Rastgele">
+            <img src="ico/diller/Rastgele.png" alt="Rastgele" class="dil-icon">
+            <span class="dil-name">Rastgele</span>
+          </button>
+          <button class="dil-btn" onclick="selectDil('turkce')" title="Türkçe">
+            <img src="ico/diller/türkçe-Photoroom.png" alt="Türkçe" class="dil-icon">
+            <span class="dil-name">Türkçe</span>
+          </button>
+          <button class="dil-btn" onclick="selectDil('ingilizce')" title="İngilizce">
+            <img src="ico/diller/ingilizce-Photoroom.png" alt="İngilizce" class="dil-icon">
+            <span class="dil-name">İngilizce</span>
+          </button>
+          <button class="dil-btn" onclick="selectDil('almanca')" title="Almanca">
+            <img src="ico/diller/almanca-Photoroom.png" alt="Almanca" class="dil-icon">
+            <span class="dil-name">Almanca</span>
+          </button>
+          <button class="dil-btn" onclick="selectDil('fransizca')" title="Fransızca">
+            <img src="ico/diller/fransızca-Photoroom.png" alt="Fransızca" class="dil-icon">
+            <span class="dil-name">Fransızca</span>
+          </button>
+          <button class="dil-btn" onclick="selectDil('ispanyol')" title="İspanyolca">
+            <img src="ico/diller/ispanyol-Photoroom.png" alt="İspanyolca" class="dil-icon">
+            <span class="dil-name">İspanyolca</span>
+          </button>
+        </div>
+        
+        <!-- Alt satır - 5 dil -->
+        <div class="dil-row">
+          <button class="dil-btn" onclick="selectDil('rusca')" title="Rusça">
+            <img src="ico/diller/rusça-Photoroom.png" alt="Rusça" class="dil-icon">
+            <span class="dil-name">Rusça</span>
+          </button>
+          <button class="dil-btn" onclick="selectDil('portekizce')" title="Portekizce">
+            <img src="ico/diller/portekizce-Photoroom.png" alt="Portekizce" class="dil-icon">
+            <span class="dil-name">Portekizce</span>
+          </button>
+          <button class="dil-btn" onclick="selectDil('cince')" title="Çince">
+            <img src="ico/diller/çince-Photoroom.png" alt="Çince" class="dil-icon">
+            <span class="dil-name">Çince</span>
+          </button>
+          <button class="dil-btn" onclick="selectDil('japonca')" title="Japonca">
+            <img src="ico/diller/japonca-Photoroom.png" alt="Japonca" class="dil-icon">
+            <span class="dil-name">Japonca</span>
+          </button>
+          <button class="dil-btn" onclick="selectDil('korece')" title="Korece">
+            <img src="ico/diller/korece-Photoroom.png" alt="Korece" class="dil-icon">
+            <span class="dil-name">Korece</span>
+          </button>
+        </div>
+      </div>
+      <div class="selected-game-display" id="selectedGameDisplay" style="display: none;">
+        <div class="selected-game-icon">
+          <img id="selectedGameIcon" src="" alt="Seçilen Oyun" class="selected-game-img">
+        </div>
+        <div class="selected-rank-icon" id="selectedRankIcon" style="display: none;">
+          <img id="selectedRankImg" src="" alt="Seçilen Rank" class="selected-rank-img">
+        </div>
+        <div class="selected-dil-icon" id="selectedDilIcon" style="display: none;">
+          <img id="selectedDilImg" src="" alt="Seçilen Dil" class="selected-dil-img">
+        </div>
+        <button class="arama-baslat-btn" id="aramaBaslatBtn" onclick="startSearch()" style="display: none;">
+          Aramayı Başlat
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sunucu Bul penceresi -->
+  <div id="sunucuBulWindow" class="sunucubul-window" style="display:none;">
+    <div class="sunucubul-window-content">
+      <button class="sunucubul-close-btn" onclick="closeSunucuBulWindow()">
+        <img src="ico/close.svg" alt="Kapat" style="width: 16px; height: 16px;">
+      </button>
+      <h2 class="sunucubul-title">Sunucu Bul</h2>
+      <!-- İçerik buraya gelecek -->
+    </div>
+  </div>
+
+  <!-- Müzik penceresi -->
+  <div id="musicWindow" class="music-window" style="display:none;">
+    <div class="music-window-content">
+      <h2 class="music-title">Music List</h2>
+      <!-- Music list content here -->
+      <!-- Remove the media controls below -->
+      
+      <!-- <div class="music-media-controls">
+        <button id="musicPlayBtn">Play</button>
+        <button id="musicPauseBtn">Pause</button>
+        <button id="musicStopBtn">Stop</button>
+      </div> -->
+    </div>
+  </div>
+
+  <!-- Etkinlik penceresi -->
+  <div id="etkinlikWindow" class="etkinlik-window" style="display:none;">
+    <div class="etkinlik-window-content">
+      <button class="etkinlik-close-btn" onclick="closeEtkinlikWindow()">
+        <img src="ico/close.svg" alt="Kapat" style="width: 16px; height: 16px;">
+      </button>
+      <h2 class="etkinlik-title">Etkinlikler</h2>
+      <!-- Etkinlik içeriği buraya gelecek -->
+    </div>
+  </div>
+
+<script src="renderer/index.js"></script>
+ 
+</body>
+</html>
