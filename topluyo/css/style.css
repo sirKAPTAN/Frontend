@@ -1,1 +1,5798 @@
+/* Temel: Tarayıcı ve pencere tam uyumlu olsun */
+html, body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 13px;
+  background-color: #000000;
+  color: white;
+}
+
+/* Ana ekran yapısı */
+.main-screen {
+  display: flex;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Yatay çizgiler kaldırıldı */
+.main-screen::before {
+  display: none !important;
+}
+
+body.main-screen:not(.main-page-active)::before {
+    display: none;
+}
+
+/* === Pencere Kontrolleri === */
+.window-controls {
+  right: 4px;
+  width: 233px;
+  gap: 2px;
+  position: fixed;
+  top: 14px; /* Changed from 4px */
+  min-width: 233px;
+  height: 41px;
+  display: flex;
+  align-items: center;
+  background: rgba(255,255,255,0.06) !important;
+  border: 1px solid rgba(255,255,255,0.13);
+  border-radius: 0 14px 0 0;
+  box-shadow: none;
+  padding-left: 20px;
+  padding-right: 20px;
+  z-index: 10000;
+  transform: translateY(16px) !important; /* Move down 16px like find-header */
+}
+
+/* Independent box below window-controls with icons */
+.window-controls-bottom-box {
+  position: fixed;
+  top: 75px;
+  right: 4px;
+  width: 273px;
+  height: 25px;
+  background: rgba(255,255,255,0.06) !important;
+  border: 1px solid rgba(255,255,255,0.13);
+  box-shadow: none;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+}
+
+.window-controls-bottom-box .bottom-box-icon {
+  width: 18px;
+  height: 18px;
+  filter: brightness(0) invert(1);
+  opacity: 0.8;
+  transition: opacity 0.2s;
+  cursor: pointer;
+}
+
+.window-controls-bottom-box .bottom-box-icon:hover {
+  opacity: 1;
+}
+
+
+
+.window-controls button {
+  background-color: transparent;
+  border: none;
+  border-radius: 4px;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  transition: background-color 0.2s;
+}
+
+.window-controls button:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.window-controls img {
+  width: 18px;
+  height: 18px;
+  filter: brightness(0) invert(1) !important;
+}
+
+/* Ruby button positioned at the bottom of the left line */
+.ruby-button {
+  position: static !important;
+  left: unset !important;
+  bottom: unset !important;
+  transform: unset !important;
+  background-color: transparent !important;
+  border: none;
+  border-radius: 0;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  transition: background-color 0.2s;
+  z-index: 10001;
+}
+
+.ruby-button:hover {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+.ruby-button img {
+  width: 28px;
+  height: 28px;
+  filter: none !important;
+}
+
+/* Prime button positioned to the left of the Ruby button */
+.prime-button {
+  position: static !important;
+  left: unset !important;
+  bottom: unset !important;
+  transform: unset !important;
+  background-color: transparent !important;
+  border: none;
+  border-radius: 0;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  transition: background-color 0.2s;
+  z-index: 10001;
+}
+
+.prime-button:hover {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+.prime-button img {
+  width: 28px;
+  height: 28px;
+  filter: none !important;
+}
+
+/* Ultra button positioned to the left of the Prime button */
+.ultra-button {
+    position: static !important;
+    left: unset !important;
+    bottom: unset !important;
+    transform: unset !important;
+    background-color: transparent !important;
+    border: none;
+    border-radius: 0;
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    transition: background-color 0.2s;
+    z-index: 10001;
+}
+
+.ultra-button:hover {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+.ultra-button img {
+    width: 28px;
+    height: 28px;
+    filter: none !important;
+}
+
+/* Login Sayfası Arka Planı */
+body.login-page {
+  background-image: url("assets/login-bg.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Mini Sidebar */
+.mini-sidebar {
+  width: 50px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 10px; /* Hafifçe aşağı kaydırmak için 10px yapıldı */
+  overflow: hidden;
+}
+
+.mini-sidebar::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("assets/images.jpg");
+  background-size: cover;
+  background-position: center;
+  opacity: 0.5;
+  z-index: 0;
+}
+
+.mini-sidebar > * {
+  position: relative;
+  z-index: 1;
+}
+
+.mini-sidebar > *:not(:first-child) {
+  margin-top: 0;
+}
+
+.icon-button {
+  font-size: 20px;
+  margin: 2px 0;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: none;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  border-radius: 0;
+  border: none;
+}
+
+.icon-button:hover {
+  background-color: #ff4fcf !important;
+  border-color: #ff4fcf !important;
+  transition: none !important;
+  animation: none !important;
+  transform: none !important;
+}
+
+.icon-button.active {
+  background-color: #ff4fcf !important;
+  border-color: #ff4fcf !important;
+  transition: none !important;
+  animation: none !important;
+  transform: none !important;
+}
+
+.icon-button img {
+  opacity: 1;
+  filter: brightness(0) invert(1) !important;
+  width: 18px;
+  height: 18px;
+  transition: all 0.2s ease;
+}
+
+.icon-button:hover img {
+  filter: brightness(0) saturate(100%) sepia(100%) hue-rotate(-30deg) brightness(1.2) !important;
+  /* Bu filter kırmızımsı bir ton verir */
+  transition: none !important;
+  animation: none !important;
+  transform: none !important;
+}
+
+.icon-button.active img {
+  filter: brightness(0) invert(1) !important;
+  transition: none !important;
+  animation: none !important;
+  transform: none !important;
+}
+
+/* Sunucu Oluştur, Sunucu Keşfet butonları için hover animasyonunu kaldır */
+.icon-button[title="Sunucu Oluştur"]:hover img,
+.icon-button[title="Sunucu Keşfet"]:hover img {
+  transform: none !important;
+  transition: none !important;
+  animation: none !important;
+  filter: brightness(0) invert(1) !important;
+}
+
+/* Sadece belirli butonlar için kare stil */
+.icon-button[title="Sunucu Oluştur"],
+.icon-button[title="Sunucu Keşfet"] {
+  background-color: rgba(255, 255, 255, 0.1); /* Çok saydam */
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 6px;
+  backdrop-filter: blur(5px);
+  width: 31px;
+  height: 31px;
+  margin-bottom: 3px;
+  transform: none !important;
+  transition: none !important;
+  animation: none !important;
+}
+
+/* Ana Sayfa butonu için özel stil */
+.icon-button[title="Ana Sayfa"] {
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 6px;
+  backdrop-filter: blur(5px);
+  width: 31px;
+  height: 31px;
+  margin-bottom: 3px;
+  transform: none !important;
+  transition: none !important;
+  animation: none !important;
+}
+
+/* İlk buton için özel margin - 1px sola kaydırıldı */
+.icon-button[title="Ana Sayfa"] {
+  margin-top: 0px;
+  margin-left: -1px;
+  width: 36px;
+  margin-right: -2px;
+}
+
+/* İkinci buton için 2px boşluk - 1px sola kaydırıldı */
+.icon-button[title="Sunucu Oluştur"] {
+  margin-top: 4px;
+  margin-left: -1px;
+  width: 36px;
+  margin-right: -2px;
+}
+
+/* Üçüncü buton için 2px boşluk - 1px sola kaydırıldı */
+.icon-button[title="Sunucu Keşfet"] {
+  margin-top: 4px;
+  margin-left: -1px;
+  width: 36px;
+  margin-right: -2px;
+}
+
+/* === ÇAKIŞAN HOVER KURALLARI TEMİZLENDİ === */
+
+.icon-button[title="Sunucu Oluştur"].active,
+.icon-button[title="Sunucu Keşfet"].active {
+  color: #fff !important;
+  opacity: 1 !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  background: none !important;
+  box-shadow: none !important;
+  border: none !important;
+  text-shadow: none !important;
+  filter: none !important;
+  transform: none !important;
+  transition: none !important;
+  animation: none !important;
+}
+
+
+
+.icon-button[title="Ana Sayfa"].active img,
+.icon-button[title="Sunucu Oluştur"].active img,
+.icon-button[title="Sunucu Keşfet"].active img {
+  filter: brightness(0) invert(1) !important;
+  transform: none !important;
+  transition: none !important;
+  animation: none !important;
+}
+
+.icon-button[title="Ana Sayfa"].active *,
+.icon-button[title="Sunucu Oluştur"].active *,
+.icon-button[title="Sunucu Keşfet"].active * {
+  transform: none !important;
+  transition: none !important;
+  filter: brightness(0) invert(1) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  background: none !important;
+  box-shadow: none !important;
+  border: none !important;
+  text-shadow: none !important;
+}
+
+/* Daha spesifik seçiciler */
+.mini-sidebar .icon-button[title="Sunucu Oluştur"].active,
+.mini-sidebar .icon-button[title="Sunucu Keşfet"].active {
+  color: #fff !important;
+  opacity: 1 !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  background: none !important;
+  box-shadow: none !important;
+  border: none !important;
+  text-shadow: none !important;
+  filter: none !important;
+  transform: none !important;
+  transition: none !important;
+  animation: none !important;
+}
+
+
+
+.mini-sidebar .icon-button[title="Ana Sayfa"].active img,
+.mini-sidebar .icon-button[title="Sunucu Oluştur"].active img,
+.mini-sidebar .icon-button[title="Sunucu Keşfet"].active img {
+  filter: brightness(0) invert(1) !important;
+  transform: none !important;
+  transition: none !important;
+  animation: none !important;
+}
+
+.mini-sidebar .icon-button[title="Ana Sayfa"].active *,
+.mini-sidebar .icon-button[title="Sunucu Oluştur"].active *,
+.mini-sidebar .icon-button[title="Sunucu Keşfet"].active * {
+  transform: none !important;
+  transition: none !important;
+  filter: brightness(0) invert(1) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  background: none !important;
+  box-shadow: none !important;
+  border: none !important;
+  text-shadow: none !important;
+}
+
+/* --- EN ÜST PNG BUTONU (sidebar-main-icon) eski haline döndü --- */
+.sidebar-main-icon {
+  width: 40px;
+  height: 40px;
+  background-color: transparent;
+  border: none;
+  border-radius: 0;
+  margin-top: -2px;
+}
+.sidebar-main-icon img {
+  filter: none !important;
+  width: 28px;
+  height: 28px;
+}
+.sidebar-main-icon:hover {
+  background-color: transparent;
+  border: none;
+  transform: none;
+}
+.sidebar-main-icon:hover img {
+  filter: none !important;
+  transform: scale(1.1);
+}
+
+/* --- ALTTAKİ 3 BUTON: Ana Sayfa, Sunucu Oluştur, Sunucu Keşfet --- */
+.icon-button[title="Ana Sayfa"],
+.icon-button[title="Sunucu Oluştur"],
+.icon-button[title="Sunucu Keşfet"] {
+  background-color: rgba(255, 255, 255, 0.1); /* Çok saydam */
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 6px;
+  backdrop-filter: blur(5px);
+  width: 35px; /* 4px genişletildi */
+  height: 31px;
+  margin-bottom: 3px;
+  transform: none !important;
+  transition: none !important;
+  animation: none !important;
+}
+
+/* Tüm butonlar için aynı genişlik */
+.icon-button[title="Ana Sayfa"],
+.icon-button[title="Sunucu Oluştur"],
+.icon-button[title="Sunucu Keşfet"] {
+  width: 36px !important;
+  margin-right: -2px !important;
+}
+.icon-button[title="Sunucu Oluştur"]:hover,
+.icon-button[title="Sunucu Keşfet"]:hover,
+.icon-button[title="Sunucu Oluştur"].active,
+.icon-button[title="Sunucu Keşfet"].active {
+  background-color: #ff4fcf !important;
+  border-color: #ff4fcf !important;
+  transition: none !important;
+  animation: none !important;
+  transform: none !important;
+  width: 37px !important;
+  margin-left: -1px !important;
+  margin-right: -3px !important;
+}
+
+/* Ana Sayfa butonu seçili durumda pembe kalması */
+.icon-button[title="Ana Sayfa"].active {
+  background-color: #ff4fcf !important;
+  border-color: #ff4fcf !important;
+  box-shadow: 0 0 16px 4px #ff4fcf80 !important;
+  transition: none !important;
+  animation: none !important;
+  transform: none !important;
+  width: 37px !important;
+  margin-left: -1px !important;
+  margin-right: -3px !important;
+}
+
+/* === TEMİZLENDİ === */
+.icon-button[title="Ana Sayfa"] img,
+.icon-button[title="Sunucu Oluştur"] img,
+.icon-button[title="Sunucu Keşfet"] img {
+  filter: brightness(0) invert(1) !important;
+  transition: none !important;
+  animation: none !important;
+  transform: none !important;
+}
+
+/* Güçlü hover kuralları */
+.icon-button[title="Ana Sayfa"]:hover,
+.icon-button[title="Sunucu Oluştur"]:hover,
+.icon-button[title="Sunucu Keşfet"]:hover {
+  width: 37px !important;
+  margin-left: -1px !important;
+  margin-right: -3px !important;
+  background-color: #ff4fcf !important;
+  border-color: #ff4fcf !important;
+  z-index: 10 !important;
+}
+
+/* Ana Sayfa butonu için özel hover kuralı - En güçlü */
+.mini-sidebar .icon-button[title="Ana Sayfa"]:hover {
+  width: 38px !important;
+  margin-left: -1px !important;
+  margin-right: -4px !important;
+  background-color: #ff4fcf !important;
+  border-color: #ff4fcf !important;
+  box-shadow: 0 0 8px 2px #ff4fcf80 !important;
+  z-index: 10 !important;
+}
+.icon-button[title="Ana Sayfa"]:hover img,
+.icon-button[title="Sunucu Oluştur"]:hover img,
+.icon-button[title="Sunucu Keşfet"]:hover img,
+.icon-button[title="Ana Sayfa"].active img,
+.icon-button[title="Sunucu Oluştur"].active img,
+.icon-button[title="Sunucu Keşfet"].active img {
+  filter: brightness(0) invert(1) !important;
+  transition: none !important;
+  animation: none !important;
+  transform: none !important;
+}
+
+/* Ana Sayfa butonu seçili iken hover durumunda icon da beyaz kalması */
+.icon-button[title="Ana Sayfa"].active:hover img {
+  filter: brightness(0) invert(1) !important;
+  transition: none !important;
+  animation: none !important;
+  transform: none !important;
+}
+
+/* Ana Sayfa butonu hover durumunda genişleme - En güçlü kural */
+body .mini-sidebar .icon-button[title="Ana Sayfa"]:hover {
+  width: 38px !important;
+  margin-left: -1px !important;
+  margin-right: -4px !important;
+  background-color: #ff4fcf !important;
+  border-color: #ff4fcf !important;
+  box-shadow: 0 0 8px 2px #ff4fcf80 !important;
+  z-index: 10 !important;
+}
+
+/* Sağdaki Sidebar */
+.sub-sidebar {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 280px;
+  position: relative;
+  padding: 14px 0px 2px 2px;
+  box-sizing: border-box;
+  overflow: visible;
+  font-size: 13px;
+  gap: 0;
+}
+
+.sub-sidebar::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("assets/images.jpg");
+  background-size: cover;
+  background-position: center;
+  opacity: 0.5;
+  z-index: 0;
+}
+
+.sub-sidebar > * {
+  position: relative;
+  z-index: 1;
+}
+
+.sub-sidebar h3 {
+  margin: 6px 0 4px 0;
+  font-size: 12.5px;
+  color: #ddd;
+}
+
+/* Server Adı */
+.server-name {
+  color: #ffd700;
+  font-weight: bold;
+  margin-bottom: 10px;
+  font-size: 14px;
+  padding: 5px;
+  background-color: rgba(0, 0, 0, 0.4);
+  border-radius: 4px;
+  text-align: center;
+}
+
+/* Sidebar içinde butonlar */
+.sub-sidebar button {
+  width: 100%;
+  padding: 8px 12px;
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 14px;
+  text-align: left;
+  cursor: pointer;
+  transition: none;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-left: 40px;
+  border-radius: 4px;
+}
+
+.button-icon {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+  filter: brightness(0) invert(1) !important;
+}
+
+/* Section Header ve Title */
+.section-header, .section-title, .section-header .section-title, .sohbet-baslat {
+  background: none !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  max-width: unset !important;
+  display: inline;
+}
+
+.sub-sidebar .section-header::before {
+  /* Bu kural artık gerekli değil, çünkü başlık kutusu zaten dikey çizgilerin içinde */
+  display: none;
+}
+
+.section-header::after {
+  content: none;
+}
+
+.section-header .section-title {
+  color: #fff;
+}
+
+.section-header .section-title::after {
+  display: none !important;
+  content: none !important;
+  background: none !important;
+  box-shadow: none !important;
+}
+
+.section-title {
+  font-size: 14px;
+  font-weight: bold;
+  color: #fff;
+  text-align: center;
+  white-space: nowrap;
+  opacity: 1;
+  width: 100%;
+  position: relative;
+  z-index: 1;
+}
+
+.green-text, .yellow-text, .blue-text {
+  color: #fff !important;
+}
+
+/* DM Listesi */
+.dm-list {
+  list-style: none;
+  padding: 0;
+  margin: 4px 0 0 0;
+}
+
+.dm-list li {
+  padding: 6px 8px;
+  margin: 2px 0;
+  background-color: rgba(68, 68, 68, 0.6);
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: background-color 0.2s ease;
+}
+
+.dm-list li:hover {
+  background-color: rgba(102, 102, 102, 0.6);
+}
+
+/* Ana İçerik */
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 0 16px;
+  padding-top: 48px;
+  overflow-y: auto;
+  background: none !important;
+  box-shadow: none !important;
+  overflow: visible !important;
+}
+
+.main-content h1 {
+  font-size: 17px;
+  margin-bottom: 10px;
+}
+
+/* Sekmeler */
+.tab {
+  display: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  /* background: transparent; */ /* Arka planı kaldırdım */
+}
+
+.tab.active {
+  display: block;
+  opacity: 1;
+  /* background: transparent; */ /* Arka planı kaldırdım */
+  background: none !important;
+  box-shadow: none !important;
+  overflow: visible !important;
+}
+
+#discover {
+  width: auto !important;
+  min-width: 0 !important;
+  max-width: fit-content !important;
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: fit-content !important;
+  background: none !important;
+  box-shadow: none !important;
+  overflow: visible !important;
+}
+
+/* Crew Container ve Input */
+.crew-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.crew-item {
+  background: #222;
+  padding: 10px;
+  border-radius: 5px;
+  color: white;
+}
+
+.crew-input {
+  margin-top: 20px;
+}
+
+.crew-input input {
+  padding: 8px;
+  margin-right: 8px;
+  border: none;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+}
+
+.crew-input button {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 4px;
+  background: #007bff;
+  color: white;
+  cursor: pointer;
+}
+
+.crew-input button:hover {
+  background: #0056b3;
+}
+
+/* Server Message */
+.server-msg {
+  display: none;
+  margin-top: 10px;
+  padding: 10px;
+  background: rgba(0, 255, 0, 0.2);
+  border-radius: 4px;
+  color: #00ff00;
+}
+
+/* Category Selector */
+.category-selector {
+  margin-top: 20px;
+}
+
+.category-btn {
+  background-color: #007bff;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.category-btn:hover {
+  background-color: #0056b3;
+}
+
+.category-menu {
+  display: none;
+  flex-direction: column;
+  margin-top: 10px;
+  gap: 5px;
+}
+
+.category-menu button {
+  padding: 8px;
+  border: none;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  cursor: pointer;
+}
+
+.category-menu button:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.selected-game {
+  margin-top: 10px;
+  font-weight: bold;
+  color: #00aaff;
+}
+
+.search-btn {
+  margin-top: 10px;
+  display: none;
+  padding: 8px 12px;
+  background-color: green;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.search-btn:hover {
+  background-color: #006400;
+}
+
+/* Post Creator */
+.post-creator {
+  margin-top: 20px;
+}
+
+.post-button {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.post-button:hover {
+  background-color: #0056b3;
+}
+
+.post-menu {
+  display: none;
+  flex-direction: column;
+  margin-top: 10px;
+  gap: 5px;
+}
+
+.post-menu button {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  cursor: pointer;
+}
+
+.post-menu button:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Sub Sidebar h3 sohbet-baslat */
+.sub-sidebar h3.sohbet-baslat {
+  background-color: rgba(255, 255, 255, 0.1); /* Arka planı biraz daha görünür yap */
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 6px;
+  padding: 2px 12px 4px; /* Yatay boşluğu biraz daha büyült */
+  color: #fff;
+  font-weight: normal;
+  font-size: 13px;
+  text-align: center;
+  margin: 20px auto 0; /* Ortala */
+  max-width: 160px; /* Buton genişliğini biraz daha büyült */
+}
+
+.sub-sidebar h3.sohbet-baslat::before {
+  content: none;
+}
+
+.sub-sidebar h3.sohbet-baslat::after {
+  display: none;
+}
+
+/* Voice Overlay */
+.voice-overlay {
+  position: absolute;
+  bottom: 20px;
+  left: 72px;
+  right: 20px;
+  height: 90px;
+  background-color: #2c2f33;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 30px;
+  color: white;
+  z-index: 1000;
+  box-shadow: none !important;
+  border: none !important;
+  background-clip: padding-box;
+  animation: none !important;
+}
+
+.voice-user-info {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.voice-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: linear-gradient(45deg, #00aaff, #8800ff);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+}
+
+.voice-username {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.voice-controls button {
+  border-radius: 0 !important;
+  background: none !important;
+  box-shadow: none !important;
+  border: none !important;
+  animation: none !important;
+  transition: none !important;
+  width: 40px;
+  height: 40px;
+  color: white;
+  cursor: pointer;
+  margin: 0 5px;
+}
+
+.voice-controls button:hover {
+  background: none !important;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+/* Sağ alt destek ve bayrak */
+.button-container {
+  position: fixed;
+  bottom: 10px;
+  right: 15px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  z-index: 10;
+}
+.register-button, .support-button {
+  padding: 5px 12px;
+  font-size: 13px;
+  background-color: #444;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  color: white;
+  user-select: none;
+}
+.register-button:hover, .support-button:hover {
+  background-color: #666;
+}
+.turk-bayragi {
+  width: 32px;
+  height: 24px;
+  cursor: default;
+  user-select: none;
+}
+
+/* Sol altta hizmetler yazısı */
+#statusMessage {
+  position: fixed;
+  bottom: 5px;
+  left: 10px;
+  font-size: 12px;
+  color: #ccc;
+  opacity: 0.85;
+  user-select: none;
+  z-index: 10;
+  white-space: nowrap;
+  max-width: 40vw;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-shadow: 0 0 3px black;
+}
+
+/* Telif */
+.copyright-footer {
+  position: fixed;
+  bottom: 5px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 12px;
+  color: #888;
+  font-weight: normal;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  user-select: none;
+  z-index: 10;
+}
+
+/* Yazı animasyonu */
+.typewriter-text {
+  font-size: 14px;
+  color: white;
+  white-space: nowrap;
+  overflow: hidden;
+  border-right: 2px solid white;
+  display: inline-block;
+  vertical-align: bottom;
+  animation: typing 4s steps(40, end), blink-caret 0.75s step-end infinite;
+  max-width: 100%;
+}
+@keyframes typing {
+  from { width: 0 }
+  to { width: 100% }
+}
+@keyframes blink-caret {
+  0%, 100% { border-color: transparent }
+  50% { border-color: white }
+}
+
+/* Sunucu içi butonlar */
+.sidebar-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 10px;
+}
+.sidebar-actions button {
+  background-color: rgba(255, 255, 255, 0.05);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 6px 10px;
+  font-size: 12.5px;
+  border-radius: 4px;
+  cursor: pointer;
+  text-align: left;
+  transition: background-color 0.2s ease;
+}
+.sidebar-actions button:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Discover özel buton grubu ve butonları */
+.discover-buttons {
+  margin-top: 10px;
+}
+
+.matchmaking-overlay {
+  /*margin-top: 0;*/
+  /*margin-bottom: 20px;*/
+  border: none;
+  /*border-radius: 999px;*/
+  width: 240px;
+  height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none !important;
+  margin: 0 auto 0 auto;
+}
+
+.matchmaking-grid {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  padding-top: 0;
+}
+
+.grid-row {
+  gap: 22px;
+}
+
+/* Overlay Containers - Renkli Kutucuklar */
+.matchmaking-overlay {
+  border: none;
+  border-radius: 999px;
+  width: 240px;
+  height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(30, 30, 40, 0.55);
+  margin: 0 auto 0 auto;
+}
+
+.store-overlay {
+  background: linear-gradient(135deg, rgba(255, 193, 7, 0.1), rgba(220, 53, 69, 0.1));
+  border: 2px solid;
+  border-image: linear-gradient(45deg, #ffc107, #dc3545) 1;
+  border-radius: 25px;
+  padding: 25px;
+  box-shadow: 0 8px 32px rgba(255, 193, 7, 0.2);
+  backdrop-filter: blur(10px);
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  align-items: center;
+}
+
+.friends-overlay {
+  background: linear-gradient(135deg, rgba(111, 66, 193, 0.1), rgba(255, 64, 129, 0.1));
+  border: 2px solid;
+  border-image: linear-gradient(45deg, #6f42c1, #ff4081) 1;
+  border-radius: 25px;
+  padding: 25px;
+  box-shadow: 0 8px 32px rgba(111, 66, 193, 0.2);
+  backdrop-filter: blur(10px);
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  align-items: center;
+}
+
+/* Discover İçerik Alanı */
+.discover-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+  width: 100%;
+  background: transparent;
+  overflow: hidden;
+}
+
+.discover-content-area {
+  flex-grow: 1;
+  position: relative;
+  padding: 10px 10px 0 10px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.discover-tab-content {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  box-sizing: border-box;
+  padding-bottom: 0;
+  position: relative;
+}
+
+/* Sürükle butonu */
+.drag-button {
+  cursor: grab;
+}
+
+.drag-button:active {
+  cursor: grabbing;
+}
+
+.drag-button img {
+}
+
+/* Pencere kontrolleri sürüklenemez */
+.window-controls {
+}
+
+.discover-btn.search.small {
+  min-width: 130px;
+  padding: 11px 22px;
+  font-size: 15px;
+}
+
+.crew-nav-buttons {
+  display: inline-flex;
+  gap: 16px;
+  position: relative;
+}
+
+.crew-nav-btn {
+  position: relative;
+  z-index: 1;
+}
+
+.crew-nav-buttons::after {
+  content: none !important;
+  display: none !important;
+  background: none !important;
+  height: 0 !important;
+}
+
+.crew-nav-buttons::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 0;
+  right: 0;
+  height: 1.5px;
+  background: linear-gradient(
+    to right,
+    transparent 0%,
+    #6c63ff 5%,
+    #6c63ff 95%,
+    transparent 100%
+  );
+  clip-path: polygon(
+    0 50%, 
+    3px 0, 
+    calc(100% - 3px) 0, 
+    100% 50%, 
+    calc(100% - 3px) 100%, 
+    3px 100%
+  );
+}
+
+.crew-nav-buttons-exact {
+  display: flex;
+  justify-content: center;
+  position: relative;
+}
+
+.crew-nav-underline-exact {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: -4px;
+  height: 2px;
+  width: fit-content;
+  min-width: 100%;
+  background: linear-gradient(to right, #6c63ff 0%, #2196f3 100%);
+  border-radius: 1px;
+  pointer-events: none;
+  clip-path: polygon(0% 50%, 3% 0%, 97% 0%, 100% 50%, 97% 100%, 3% 100%);
+}
+
+.discover-btn.small, .discover-btn.search {
+  width: auto;
+  height: 28px;
+  min-width: 0;
+  padding: 0 14px;
+  font-size: 11px;
+  border-radius: 999px;
+  border: none;
+  box-shadow: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  position: relative;
+  z-index: 1;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.discover-btn.search {
+  border-image: linear-gradient(90deg, #28a745, #20c997) 1;
+  color: #fff;
+}
+
+.discover-btn.small:hover, .discover-btn.search:hover {
+  background-color: rgba(255, 255, 255, 0.5) !important;
+  color: #fff;
+  border-color: transparent;
+}
+
+.discover-btn.small, .discover-btn.search.small {
+  position: relative;
+  z-index: 1;
+}
+
+.matchmaking-orange-overlay {
+  background: linear-gradient(135deg, rgba(255,102,0,0.32) 60%, rgba(255,51,0,0.32) 100%) !important;
+}
+.matchmaking-orange-btn {
+  background: linear-gradient(135deg, rgba(255,102,0,0.32) 60%, rgba(255,51,0,0.32) 100%) !important;
+  color: #fff !important;
+}
+
+.store-yellow-overlay {
+  background: linear-gradient(135deg, rgba(255, 230, 0, 0.32) 60%, rgba(255, 153, 0, 0.32) 100%) !important;
+  opacity: 0.75;
+  transform: scaleY(0.7);
+  margin-top: -20px;
+  width: 420px;
+  max-width: 90vw;
+}
+.store-yellow-btn {
+  background: linear-gradient(135deg, rgba(255, 230, 0, 0.32) 60%, rgba(255, 153, 0, 0.32) 100%) !important;
+  color: #fff !important;
+  font-size: 14px !important;
+  padding: 0 22px !important;
+  height: 36px !important;
+  font-weight: 600 !important;
+  border: none !important;
+  opacity: 0.5;
+  margin-left: -3px;
+}
+.byteshop-green-overlay {
+  background: linear-gradient(135deg, rgba(40, 200, 80, 0.32) 60%, rgba(0, 180, 120, 0.32) 100%) !important;
+}
+.byteshop-green-btn {
+  background: linear-gradient(135deg, rgba(40, 200, 80, 0.32) 60%, rgba(0, 180, 120, 0.32) 100%) !important;
+  color: #fff !important;
+}
+.crew-blue-overlay {
+  background: linear-gradient(135deg, rgba(0, 140, 255, 0.32) 60%, rgba(0, 80, 255, 0.32) 100%) !important;
+}
+.crew-blue-btn {
+  background: linear-gradient(135deg, rgba(0, 140, 255, 0.32) 60%, rgba(0, 80, 255, 0.32) 100%) !important;
+  color: #fff !important;
+}
+
+/* Virello grid override: all buttons in one row */
+.virello-green-overlay .matchmaking-grid {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 18px;
+}
+.virello-green-overlay .grid-row {
+  display: contents;
+}
+
+.virello-yellow-overlay {
+  background: linear-gradient(135deg, rgba(255, 230, 0, 0.32) 60%, rgba(255, 153, 0, 0.32) 100%) !important;
+  opacity: 0.75;
+  transform: scaleY(0.7);
+  margin-top: -20px;
+  width: 420px;
+  max-width: 90vw;
+}
+.virello-yellow-btn {
+  background: linear-gradient(135deg, rgba(255, 230, 0, 0.32) 60%, rgba(255, 153, 0, 0.32) 100%) !important;
+  color: #fff !important;
+  font-size: 11px !important;
+  padding: 0 14px !important;
+  height: 28px !important;
+  font-weight: 500 !important;
+  border: none !important;
+  opacity: 0.5;
+  margin-left: -3px;
+}
+
+.sub-sidebar .matchmaking-btn {
+  border-radius: 0 !important;
+  background: none !important;
+  box-shadow: none !important;
+  border: none !important;
+  animation: none !important;
+  transition: none !important;
+  opacity: 1 !important;
+  margin-top: 20px;
+  height: 32px !important;
+}
+
+.sub-sidebar button.matchmaking-btn:hover {
+  transform: none !important;
+  transition: none !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  height: 32px !important;
+}
+
+.sub-sidebar .byteshop-btn {
+  background: transparent !important;
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+.sub-sidebar button.byteshop-btn:hover {
+  transform: none !important;
+  transition: none !important;
+}
+.sub-sidebar .virello-btn {
+  background: transparent !important;
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+.sub-sidebar button.virello-btn:hover {
+  transform: none !important;
+  transition: none !important;
+}
+.sub-sidebar .crew-btn {
+  background: transparent !important;
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+.sub-sidebar button.crew-btn:hover {
+  transform: none !important;
+  transition: none !important;
+}
+
+.sub-sidebar .chat-room-btn {
+  background: transparent !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+.sub-sidebar button.chat-room-btn:hover {
+  background: rgba(255, 255, 255, 0.5) !important;
+}
+
+.window-controls .mini-message-box {
+  position: absolute;
+  top: 40px;
+  left: 0;
+  min-width: 220px;
+  background: rgba(30,30,30,0.98);
+  border-radius: 10px;
+  box-shadow: 0 4px 24px 0 #0008;
+  border: 1px solid #333;
+  z-index: 10001;
+  padding: 0;
+  animation: fadeIn 0.2s;
+}
+.mini-message-header {
+  padding: 10px 16px;
+  font-weight: bold;
+  border-bottom: 1px solid #444;
+  background: #232323;
+  border-radius: 10px 10px 0 0;
+}
+.mini-message-content {
+  padding: 14px 16px;
+  color: #eee;
+  font-size: 13px;
+}
+
+.mini-friends-btn {
+  background: linear-gradient(135deg, #4a90e2, #357abd);
+  border: none;
+  border-radius: 6px;
+  color: white;
+  padding: 8px 12px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-top: 8px;
+  width: 100%;
+  text-align: center;
+}
+
+.mini-friends-btn:hover {
+  background: linear-gradient(135deg, #357abd, #2d6da3);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(74, 144, 226, 0.3);
+}
+
+.mini-friends-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 4px rgba(74, 144, 226, 0.2);
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.window-controls .message-button img {
+  width: 18px;
+  height: 18px;
+  filter: brightness(0) invert(1) !important;
+}
+
+.window-controls .window-divider {
+  width: 1.5px;
+  height: 22px;
+  background: linear-gradient(to bottom, #aaa8, #4448);
+  margin: 0 8px;
+  border-radius: 2px;
+  display: inline-block;
+  align-self: center;
+}
+
+.friends-circle-overlay {
+  background: linear-gradient(135deg, rgba(33,150,243,0.05) 60%, rgba(21,101,192,0.05) 100%);
+  border-radius: 50%;
+  width: 300px;
+  height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 20px auto;
+  border: 1px solid rgba(33,150,243,0.1);
+  backdrop-filter: blur(5px);
+}
+
+.discover-btn.friends-btn {
+  background: transparent !important;
+  color: #fff;
+  padding: 6px 16px;
+  font-size: 12px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  transition: all 0.3s ease;
+  width: auto;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 10px;
+  margin: 0;
+  z-index: 1;
+  height: 28px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.discover-btn.friends-btn:hover {
+  background-color: rgba(255, 255, 255, 0.5) !important;
+  border-color: transparent;
+  transform: scale(1.05);
+}
+
+.crew-nav-btn {
+  background: transparent !important;
+  color: #fff;
+  padding: 0 14px;
+  font-size: 11px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  position: relative;
+  z-index: 1;
+}
+
+.crew-nav-btn.add-friend {
+  background: transparent !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  padding: 0 14px;
+  font-weight: 500;
+  height: 28px;
+  font-size: 11px;
+}
+
+.crew-nav-btn.add-friend:hover {
+  background: rgba(255, 255, 255, 0.5) !important;
+  transform: translateY(-1px);
+}
+
+.crew-nav-btn:hover {
+  background: rgba(255, 255, 255, 0.5) !important;
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+.crew-nav-btn.active {
+  background: rgba(255, 255, 255, 0.1) !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+  color: #fff;
+}
+
+/* Dikey çizgiler ve Sohbet altı çizgi kaldırıldı */
+.glow-vertical-divider,
+.glow-vertical-divider.right {
+  display: none !important;
+}
+
+.section-header .section-title::after {
+  display: none !important;
+  content: none !important;
+  background: none !important;
+  box-shadow: none !important;
+}
+
+.crew-nav-buttons-wrapper {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  padding-bottom: 0;
+  margin-bottom: 0;
+}
+
+.crew-nav-buttons {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  margin-bottom: 0;
+}
+
+.discover-underline {
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  width: auto;
+  bottom: 0;
+  height: 2px;
+  background: linear-gradient(to right, #6c63ff 0%, #2196f3 100%);
+  border-radius: 1px;
+  pointer-events: none;
+  clip-path: polygon(0% 50%, 0.5% 0%, 99.5% 0%, 100% 50%, 99.5% 100%, 0.5% 100%);
+}
+
+.crew-nav-underline-custom {
+  position: absolute;
+  top: 100%;
+  height: 2px;
+  margin-top: 6px;
+  background: linear-gradient(
+    to right,
+    #6c63ff 0%,
+    #6c63ff 100%
+  );
+  clip-path: polygon(
+    0% 50%, 2% 0%, 98% 0%, 100% 50%, 98% 100%, 2% 100%
+  );
+  z-index: 0;
+}
+
+.crew-nav-underline-exact {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -4px;
+  height: 1px;
+  width: 100%;
+  background: linear-gradient(to right, #6c63ff 0%, #6c63ff 100%);
+  border-radius: 1px;
+  pointer-events: none;
+  clip-path: polygon(0% 50%, 3% 0%, 97% 0%, 100% 50%, 97% 100%, 3% 100%);
+}
+
+.discover-title-bar {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 8px;
+}
+
+.discover-title {
+  font-size: 18px;
+  font-weight: bold;
+  color: #ffb300; /* Örnek: Discover için turuncu, her sayfa için farklı renk verebilirsin */
+}
+
+.discover-underline.orange {
+  background: linear-gradient(to right, #ffb300 0%, #ff9800 100%);
+}
+.discover-underline.green {
+  background: linear-gradient(to right, #43ea5e 0%, #1fae4b 100%);
+}
+.discover-underline.yellow {
+  background: linear-gradient(to right, #ffe600 0%, #ff9900 100%);
+}
+.discover-underline.blue {
+  background: linear-gradient(to right, #6c63ff 0%, #2196f3 100%);
+}
+
+.voice-bar-circle {
+  position: static;
+  margin: 32px auto 16px auto;
+  width: 90%;
+  max-width: 600px;
+  height: 40px;
+  background: #23272a;
+  border-radius: 20px;
+  border: 3px solid #00aaff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+  z-index: 10;
+}
+.voice-bar-inner {
+  width: 48px;
+  height: 48px;
+  background: none;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: none;
+}
+.voice-icon {
+  font-size: 22px;
+  color: #00aaff;
+}
+
+.left-bottom-box {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 310px;
+  height: 60px;
+  background: linear-gradient(135deg, #00aaff, #8800ff);
+  border-radius: 0 20px 0 0;
+  z-index: 1000;
+}
+
+/* === CHAT ROOM STYLES === */
+.chat-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  flex: 1 1 auto;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+  overflow: hidden;
+  margin-top: 32px;
+  position: relative;
+  padding-bottom: 80px;
+}
+
+.chat-header {
+  background: linear-gradient(135deg, rgba(255,0,0,0.15), rgba(183,28,28,0.15));
+  border: 1px solid rgba(255, 82, 82, 0.2);
+  padding: 6px 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+  min-height: 32px;
+  border-radius: 10px;
+}
+
+.chat-header h2 {
+  margin: 0;
+  font-size: 18px;
+  color: white;
+}
+
+.room-controls {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  min-height: 28px;
+}
+
+.room-controls input {
+  padding: 4px 8px;
+  border: none;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  font-size: 13px;
+}
+
+.room-controls input::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.room-controls button {
+  padding: 4px 12px;
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  border-radius: 4px;
+  color: white;
+  cursor: pointer;
+  font-size: 13px;
+  transition: background 0.2s;
+}
+
+.room-controls button:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.chat-content {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+  margin-top: 18px;
+}
+
+.chat-messages {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.2);
+  min-height: 0;
+  overflow-y: auto;
+  padding-bottom: 0;
+}
+
+.chat-box {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 24px;
+  color: #fff;
+  font-size: 16px;
+  display: flex;
+  flex-direction: column;
+}
+
+.message {
+  padding: 10px 15px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  border-left: 3px solid #00aaff;
+  animation: fadeIn 0.3s ease-in;
+}
+
+.message.system {
+  background: rgba(255, 193, 7, 0.2);
+  border-left-color: #ffc107;
+  font-style: italic;
+}
+
+.message .username {
+  font-weight: bold;
+  color: #00aaff;
+  margin-right: 8px;
+}
+
+.message .content {
+  color: white;
+}
+
+.message .timestamp {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.6);
+  margin-left: 8px;
+}
+
+.message-input {
+  padding: 15px 20px;
+  background: rgba(0, 0, 0, 0.3);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  gap: 10px;
+  margin-bottom: 0;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10;
+  width: auto;
+  align-self: stretch;
+}
+
+.message-input input {
+  flex: 1;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  font-size: 14px;
+}
+
+.chat-bottom-block {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  background: rgba(30,30,30,0.55);
+  border-radius: 28px 28px 0 0;
+  border: 3px solid rgba(0,0,0,0.22);
+  margin: 0;
+  height: 100%;
+  min-height: 0;
+  width: 100%;
+}
+
+.chat-sidebar {
+  width: 250px;
+  background: rgba(0, 0, 0, 0.4);
+  border-left: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.unified-controls-section {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin-right: 12px;
+}
+
+.unified-controls-section .media-controls,
+.unified-controls-section .users-section,
+.unified-controls-section .room-section {
+  background: transparent;
+  border-radius: 0;
+  padding: 0;
+  margin: 0;
+}
+
+.unified-controls-section .media-controls h3,
+.unified-controls-section .users-section h3,
+.unified-controls-section .room-section h3 {
+  margin: 0 0 10px 0;
+  font-size: 14px;
+  color: #00aaff;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 8px;
+}
+
+.unified-controls-section .media-controls {
+  margin-bottom: 15px;
+}
+
+.unified-controls-section .users-section {
+  margin-bottom: 15px;
+}
+
+.unified-controls-section .room-section {
+  margin-bottom: 0;
+}
+
+.user-list, .room-users {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.user-item, .room-user-item {
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  font-size: 13px;
+  color: white;
+  transition: background 0.2s;
+}
+
+.user-item:hover, .room-user-item:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.media-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.media-btn {
+  padding: 10px 15px;
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  border-radius: 6px;
+  color: white;
+  cursor: pointer;
+  font-size: 13px;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.media-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-1px);
+}
+
+.media-btn:active {
+  transform: translateY(0);
+}
+
+/* === VIDEO CONTAINER STYLES === */
+.video-container {
+  background: rgba(0, 0, 0, 0.5);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 20px;
+}
+
+.video-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  max-height: 300px;
+}
+
+.video-item {
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+  padding: 15px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.video-item h4 {
+  margin: 0 0 10px 0;
+  font-size: 14px;
+  color: #00aaff;
+  text-align: center;
+}
+
+.video-item video {
+  width: 100%;
+  height: 200px;
+  background: #000;
+  border-radius: 6px;
+  object-fit: cover;
+}
+
+/* === RESPONSIVE DESIGN === */
+@media (max-width: 1200px) {
+  .chat-sidebar {
+    width: 200px;
+  }
+  
+  .video-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .chat-content {
+    flex-direction: column;
+  }
+  
+  .chat-sidebar {
+    width: 100%;
+    height: 200px;
+    overflow-y: auto;
+  }
+  
+  .video-container {
+    padding: 10px;
+  }
+  
+  .video-item video {
+    height: 150px;
+  }
+}
+
+/* === ANIMATIONS === */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* === SCROLLBAR STYLING === */
+.chat-box::-webkit-scrollbar {
+  width: 6px;
+}
+
+.chat-box::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+}
+
+.chat-box::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 3px;
+}
+
+.chat-box::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.chat-sidebar::-webkit-scrollbar {
+  width: 4px;
+}
+
+.chat-sidebar::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.chat-sidebar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 2px;
+}
+
+.saga-al-kutu {
+  position: fixed;
+  top: 24px;
+  right: 32px;
+  z-index: 9999;
+  background: #23242a;
+  border-radius: 12px;
+  padding: 18px 28px;
+  box-shadow: 0 4px 24px #0008;
+  min-width: 220px;
+  max-width: 320px;
+  color: #fff;
+  font-size: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.saga-al-header {
+  font-weight: bold;
+  font-size: 16px;
+  margin-bottom: 8px;
+}
+.saga-al-content {
+  font-size: 14px;
+}
+
+.chat-bottom-widgets {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin-bottom: 2px;
+  align-items: flex-end;
+}
+@media (max-width: 700px) {
+  .chat-bottom-widgets {
+    flex-direction: column;
+    gap: 0;
+    align-items: stretch;
+  }
+}
+
+/* === YENİ CHAT ALANI (örnek) === */
+.chat-ana-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background: #181818;
+  max-width: 900px;
+  width: 100%;
+  margin: 0 auto;
+}
+.chat-header {
+  background: linear-gradient(135deg, rgba(255,0,0,0.15), rgba(183,28,28,0.15));
+  border: 1px solid rgba(255, 82, 82, 0.2);
+  padding: 18px 24px 12px 24px;
+}
+.room-controls {
+  display: flex;
+  gap: 12px;
+}
+.room-controls input {
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: none;
+  background: #2a2a2a;
+  color: #fff;
+}
+.room-controls button {
+  padding: 8px 18px;
+  border-radius: 6px;
+  border: none;
+  background: #6a3a3a;
+  color: #fff;
+  cursor: pointer;
+}
+.chat-bottom-block {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  background: rgba(30,30,30,0.55);
+  border-radius: 28px 28px 0 0;
+  border: 3px solid rgba(0,0,0,0.22);
+  margin: 0;
+  height: 100%;
+  min-height: 0;
+  width: 100%;
+}
+.chat-box {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 24px;
+  color: #fff;
+  font-size: 16px;
+}
+.message-input {
+  display: flex;
+  gap: 10px;
+  padding: 14px 16px;
+  background: rgba(0,0,0,0.18);
+  border-radius: 0 0 24px 24px;
+}
+.message-input input {
+  flex: 1;
+  padding: 10px 14px;
+  border-radius: 6px;
+  border: none;
+  background: #222;
+  color: #fff;
+  font-size: 15px;
+}
+.message-input button {
+  padding: 10px 22px;
+  border-radius: 6px;
+  border: none;
+  background: linear-gradient(135deg, #00aaff, #8800ff);
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+}
+/* === /YENİ CHAT ALANI === */
+
+.chat-header.red,
+.chat-header.green,
+.chat-header.yellow,
+.chat-header.blue {
+  display: inline-flex;
+  width: fit-content;
+  min-width: unset;
+  max-width: unset;
+  padding: 0 4px;
+  height: 32px;
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1001;
+  margin-bottom: 0;
+  border-radius: 8px;
+  opacity: 0.95;
+}
+
+.chat-header.red .room-controls button,
+.chat-header.red .room-controls input,
+.chat-header.green .room-controls button,
+.chat-header.green .room-controls input,
+.chat-header.yellow .room-controls button,
+.chat-header.yellow .room-controls input,
+.chat-header.blue .room-controls button,
+.chat-header.blue .room-controls input {
+  height: 24px !important;
+  font-size: 12px !important;
+  padding: 2px 8px !important;
+  border-radius: 6px !important;
+}
+
+.chat-header.red .room-controls,
+.chat-header.green .room-controls,
+.chat-header.yellow .room-controls,
+.chat-header.blue .room-controls {
+  gap: 4px !important;
+}
+
+.chat-header.green {
+  background: transparent !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+.chat-header.yellow {
+  background: transparent !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+.chat-header.blue {
+  background: transparent !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  color: #fff !important;
+}
+
+.chat-header.blue .room-controls {
+  gap: 6px !important;
+  align-items: center !important;
+}
+
+.chat-header.blue .crew-nav-btn {
+  font-size: 13px !important;
+  padding: 0 10px !important;
+  height: 26px !important;
+  border-radius: 6px !important;
+  min-width: 0 !important;
+}
+
+.chat-header.blue .crew-nav-btn,
+.chat-header.blue .crew-nav-btn:hover {
+  background: transparent !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  color: #fff !important;
+}
+.chat-header.blue .crew-nav-btn.active {
+  background: rgba(255, 255, 255, 0.1) !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+.chat-header.yellow .discover-btn,
+.chat-header.yellow .discover-btn:hover,
+.chat-header.green .discover-btn,
+.chat-header.green .discover-btn:hover {
+  font-size: 13px !important;
+  padding: 0 12px !important;
+  height: 26px !important;
+  border-radius: 6px !important;
+  background: transparent !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+.chat-header.yellow .discover-btn,
+.chat-header.yellow .discover-btn:hover {
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+.chat-header.green .discover-btn,
+.chat-header.green .discover-btn:hover {
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+.sidebar-box.katil-box .matchmaking-btn,
+.sidebar-box.katil-box .byteshop-btn,
+.sidebar-box.katil-box .virello-btn,
+.sidebar-box.katil-box .crew-btn {
+  color: rgba(255, 255, 255, 0.5) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  background: none !important;
+  box-shadow: none !important;
+  border: none !important;
+  text-shadow: none !important;
+  filter: none !important;
+}
+
+.sidebar-box.katil-box .matchmaking-btn:hover,
+.sidebar-box.katil-box .byteshop-btn:hover,
+.sidebar-box.katil-box .virello-btn:hover,
+.sidebar-box.katil-box .crew-btn:hover {
+  color: rgba(255, 255, 255, 0.5) !important;
+  transform: none !important;
+  transition: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  background: none !important;
+  box-shadow: none !important;
+  border: none !important;
+  text-shadow: none !important;
+  filter: none !important;
+}
+
+.sidebar-box.katil-box .matchmaking-btn:hover *,
+.sidebar-box.katil-box .byteshop-btn:hover *,
+.sidebar-box.katil-box .virello-btn:hover *,
+.sidebar-box.katil-box .crew-btn:hover * {
+  transform: none !important;
+  transition: none !important;
+  filter: brightness(0) invert(1) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  background: none !important;
+  box-shadow: none !important;
+  border: none !important;
+  text-shadow: none !important;
+}
+
+.sidebar-box.katil-box .matchmaking-btn.active,
+.sidebar-box.katil-box .byteshop-btn.active,
+.sidebar-box.katil-box .virello-btn.active,
+.sidebar-box.katil-box .crew-btn.active {
+  color: #fff !important;
+  opacity: 1 !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  background: none !important;
+  box-shadow: none !important;
+  border: none !important;
+  text-shadow: none !important;
+  filter: none !important;
+}
+
+.sidebar-box.katil-box .matchmaking-btn.active *,
+.sidebar-box.katil-box .byteshop-btn.active *,
+.sidebar-box.katil-box .virello-btn.active *,
+.sidebar-box.katil-box .crew-btn.active * {
+  transform: none !important;
+  transition: none !important;
+  filter: brightness(0) invert(1) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  background: none !important;
+  box-shadow: none !important;
+  border: none !important;
+  text-shadow: none !important;
+}
+
+.sidebar-box.katil-box .matchmaking-btn.active .button-icon,
+.sidebar-box.katil-box .byteshop-btn.active .button-icon,
+.sidebar-box.katil-box .virello-btn.active .button-icon,
+.sidebar-box.katil-box .crew-btn.active .button-icon {
+  filter: brightness(0) invert(1) !important;
+}
+
+/* Kategori Listesi */
+.category-list {
+    position: fixed;
+    top: 58px;
+    right: 4px;
+    width: 275px;
+    height: calc(100vh - 64px);
+    background: rgba(255, 255, 255, 0.06) !important;
+    border: 1px solid rgba(255, 255, 255, 0.13) !important;
+    border-radius: 18px;
+    z-index: 9999;
+    box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.03) !important;
+    box-sizing: border-box;
+    overflow: hidden;
+    padding: 12px 0 0 0;
+}
+
+.search-input {
+  width: 100%;
+  padding: 8px 10px;
+  margin-bottom: 8px;
+  box-sizing: border-box;
+  border-radius: 4px;
+  border: 1px solid #18191c;
+  background-color: #36393f;
+  color: #dcddde;
+  font-size: 14px;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #00bfff;
+}
+
+.category-list::-webkit-scrollbar {
+  display: none;
+}
+
+.category-button {
+  width: 100%;
+  padding: 8px 12px;
+  background-color: transparent;
+  border: none;
+  border-radius: 5px;
+  color: #dcddde;
+  font-size: 14px;
+  font-weight: 500;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 0.15s ease-out, color 0.15s ease-out;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-sizing: border-box;
+}
+
+.category-button:hover {
+  background-color: #4f545c;
+  color: #fff;
+}
+
+.game-item {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px 8px 4px 8px;
+  box-sizing: border-box;
+  border-radius: 5px;
+  transition: background-color 0.15s ease-out;
+}
+
+.game-item:hover {
+  background-color: #292b2f;
+}
+
+.game-name {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #dcddde;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.game-item .icon {
+  color: #a371f7;
+  font-size: 18px;
+}
+
+.game-item .valorant-icon {
+  color: #fff;
+  font-weight: bold;
+}
+
+.select-btn {
+    background-color: #4f545c;
+    color: #fff;
+    border: none;
+    padding: 5px 14px;
+    font-size: 12px;
+    font-weight: bold;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.select-btn:hover {
+    background-color: #5c626d;
+}
+
+.select-btn.selected {
+    background-color: #43b581;
+    color: #fff;
+}
+
+.select-btn.invited {
+    background-color: #5865f2;
+    color: #fff;
+    cursor: not-allowed;
+}
+
+#joinRoomBtn.active-yellow {
+    background-color: transparent !important;
+    color: white !important;
+    font-weight: bold;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+#joinRoomBtn.active-yellow:hover {
+    background-color: rgba(255, 255, 255, 0.5) !important;
+}
+
+
+
+
+
+
+
+
+
+
+
+#langBtn.active-yellow {
+    background-color: transparent !important;
+    color: white !important;
+    font-weight: bold;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+#langBtn.active-yellow:hover {
+    background-color: rgba(255, 255, 255, 0.5) !important;
+}
+
+#rankBtn.active-yellow {
+    background-color: transparent !important;
+    color: white !important;
+    font-weight: bold;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+#rankBtn.active-yellow:hover {
+    background-color: rgba(255, 255, 255, 0.5) !important;
+}
+
+/* Green active state for buttons when their lists are open */
+
+
+#langBtn.active-green {
+  background-color: transparent !important;
+  color: white !important;
+  font-weight: bold;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+#langBtn.active-green:hover {
+  background-color: rgba(255, 255, 255, 0.5) !important;
+}
+
+#rankBtn.active-green {
+  background-color: transparent !important;
+  color: white !important;
+  font-weight: bold;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+#rankBtn.active-green:hover {
+  background-color: rgba(255, 255, 255, 0.5) !important;
+}
+
+/* Hide specific buttons */
+#rankBtn {
+  display: none !important;
+}
+
+#langBtn {
+  display: none !important;
+}
+
+#joinRoomBtn {
+  display: none !important;
+}
+
+/* Video Oynatıcı */
+.video-player {
+    position: fixed;
+    top: 58px;
+    right: 4px;
+    width: 275px;
+    height: calc(100vh - 64px);
+    background: rgba(255, 255, 255, 0.06) !important;
+    border: 1px solid rgba(255, 255, 255, 0.13) !important;
+    border-radius: 18px;
+    z-index: 9999;
+    box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.03) !important;
+    box-sizing: border-box;
+    overflow: hidden;
+    padding: 12px 0 0 0;
+}
+
+.video-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(79, 84, 92, 0.3);
+  background: rgba(30, 30, 40, 0.45); /* daha saydam ve modern bir görünüm */
+  backdrop-filter: blur(8px); /* blur efekti */
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+}
+
+.video-title {
+  color: #fff;
+  font-weight: 600;
+  font-size: 14px;
+  background: rgba(0,0,0,0.18); /* başlık arkasına hafif bir koyuluk */
+  padding: 4px 14px;
+  border-radius: 12px;
+  backdrop-filter: blur(2px);
+}
+
+.cancel-search-btn {
+  background-color: #43b581;
+  color: #fff;
+  border: none;
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.cancel-search-btn:hover {
+  background-color: #3ca374;
+}
+
+.video-player video {
+  width: 100%;
+  height: calc(100% - 60px);
+  object-fit: cover;
+  border-radius: 0 0 8px 8px;
+}
+
+#video-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.75);
+  z-index: 9998; /* Video oynatıcının altında, diğer her şeyin üstünde */
+}
+
+#invite-list {
+  top: 55px; /* Diğer listelerden biraz daha aşağıda */
+  background-color: #000;
+}
+
+.invite-search {
+  background-color: #000;
+  border-color: #333;
+}
+
+.category-list::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
+/* Room number input styling */
+#roomInput {
+    outline: none;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    font-size: 14px;
+    padding: 5px 10px;
+    width: 120px;
+    margin-left: 10px;
+    display: block !important;
+    border-radius: 4px;
+}
+
+#roomInput::-webkit-outer-spin-button,
+#roomInput::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+#roomInput[type=number] {
+    -moz-appearance: textfield;
+}
+
+#roomInput::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* Remove focus outline */
+#roomInput:focus {
+    outline: none;
+    border: none;
+    box-shadow: none;
+}
+
+.crew-top-center {
+  position: absolute;
+  top: -13px;
+  right: 80px;
+  width: 62px;
+  height: auto;
+  z-index: 10002;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* Ana sayfa butonu aktif olduğunda sub-sidebar butonlarını vurgula - Katıl, Mağaza, Keşfet butonları hariç */
+.main-page-active .sub-sidebar button:not(.room-controls button):not(.discover-btn):not(.byteshop-green-btn):not(.virello-yellow-btn):not(.crew-nav-btn):not(.chat-header.red .room-controls button):not(.chat-header.green .room-controls button):not(.chat-header.yellow .room-controls button):not(.chat-header.yellow .discover-btn):not(.chat-header.green .byteshop-green-btn):not(.chat-header.yellow .virello-yellow-btn) {
+  opacity: 1;
+  transform: scale(1.02);
+  transition: all 0.3s ease;
+}
+
+.main-page-active .sub-sidebar button:not(.room-controls button):not(.discover-btn):not(.byteshop-green-btn):not(.virello-yellow-btn):not(.crew-nav-btn):not(.chat-header.red .room-controls button):not(.chat-header.green .room-controls button):not(.chat-header.yellow .room-controls button):not(.chat-header.yellow .discover-btn):not(.chat-header.green .byteshop-green-btn):not(.chat-header.yellow .virello-yellow-btn):hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
+}
+
+/* Katıl, Mağaza, Keşfet butonları için kesinlikle hareket etmeyen stil */
+.main-page-active .sub-sidebar .room-controls button,
+.main-page-active .sub-sidebar .discover-btn,
+.main-page-active .sub-sidebar .byteshop-green-btn,
+.main-page-active .sub-sidebar .virello-yellow-btn,
+.main-page-active .sub-sidebar .chat-header.red .room-controls button,
+.main-page-active .sub-sidebar .chat-header.green .room-controls button,
+.main-page-active .sub-sidebar .chat-header.yellow .room-controls button,
+.main-page-active .sub-sidebar .chat-header.yellow .discover-btn,
+.main-page-active .sub-sidebar .chat-header.green .byteshop-green-btn,
+.main-page-active .sub-sidebar .chat-header.yellow .virello-yellow-btn {
+  transform: none !important;
+  transition: none !important;
+  animation: none !important;
+  will-change: auto !important;
+  opacity: 1 !important;
+}
+
+.main-page-active .sub-sidebar .room-controls button:hover,
+.main-page-active .sub-sidebar .discover-btn:hover,
+.main-page-active .sub-sidebar .byteshop-green-btn:hover,
+.main-page-active .sub-sidebar .virello-yellow-btn:hover,
+.main-page-active .sub-sidebar .chat-header.red .room-controls button:hover,
+.main-page-active .sub-sidebar .chat-header.green .room-controls button:hover,
+.main-page-active .sub-sidebar .chat-header.yellow .room-controls button:hover,
+.main-page-active .sub-sidebar .chat-header.yellow .discover-btn:hover,
+.main-page-active .sub-sidebar .chat-header.green .byteshop-green-btn:hover,
+.main-page-active .sub-sidebar .chat-header.yellow .virello-yellow-btn:hover {
+  transform: none !important;
+  transition: none !important;
+  animation: none !important;
+  will-change: auto !important;
+  box-shadow: none !important;
+  opacity: 1 !important;
+}
+
+/* Katıl, Mağaza, Keşfet butonları için hareket etmeyen stil */
+.main-page-active .chat-header.red .room-controls button,
+.main-page-active .chat-header.green .room-controls button,
+.main-page-active .chat-header.yellow .room-controls button,
+.main-page-active .chat-header.yellow .discover-btn,
+.main-page-active .chat-header.green .byteshop-green-btn,
+.main-page-active .chat-header.yellow .virello-yellow-btn {
+  transform: none !important;
+  transition: none !important;
+  animation: none !important;
+  will-change: auto !important;
+}
+
+.main-page-active .chat-header.red .room-controls button:hover,
+.main-page-active .chat-header.green .room-controls button:hover,
+.main-page-active .chat-header.yellow .room-controls button:hover,
+.main-page-active .chat-header.yellow .discover-btn:hover,
+.main-page-active .chat-header.green .byteshop-green-btn:hover,
+.main-page-active .chat-header.yellow .virello-yellow-btn:hover {
+  transform: none !important;
+  box-shadow: none !important;
+  animation: none !important;
+  will-change: auto !important;
+}
+
+/* Genel olarak tüm Katıl, Mağaza, Keşfet butonları için hareket etmeyen stil */
+.chat-header.red .room-controls button,
+.chat-header.green .room-controls button,
+.chat-header.yellow .room-controls button,
+.chat-header.yellow .discover-btn,
+.chat-header.green .byteshop-green-btn,
+.chat-header.yellow .virello-yellow-btn,
+.main-page-active .chat-header.red .room-controls button,
+.main-page-active .chat-header.green .room-controls button,
+.main-page-active .chat-header.yellow .room-controls button,
+.main-page-active .chat-header.yellow .discover-btn,
+.main-page-active .chat-header.green .byteshop-green-btn,
+.main-page-active .chat-header.yellow .virello-yellow-btn,
+/* Tüm olası seçiciler için */
+.sub-sidebar .room-controls button,
+.sub-sidebar .discover-btn,
+.sub-sidebar .byteshop-green-btn,
+.sub-sidebar .virello-yellow-btn,
+.main-page-active .sub-sidebar .room-controls button,
+.main-page-active .sub-sidebar .discover-btn,
+.main-page-active .sub-sidebar .byteshop-green-btn,
+.main-page-active .sub-sidebar .virello-yellow-btn,
+/* Tüm olası buton seçicileri */
+.sub-sidebar button[class*="room-controls"],
+.sub-sidebar button[class*="discover"],
+.sub-sidebar button[class*="byteshop"],
+.sub-sidebar button[class*="virello"],
+.main-page-active .sub-sidebar button[class*="room-controls"],
+.main-page-active .sub-sidebar button[class*="discover"],
+.main-page-active .sub-sidebar button[class*="byteshop"],
+.main-page-active .sub-sidebar button[class*="virello"],
+/* Katıl ve Arkadaşlar butonları için özel seçiciler */
+.sub-sidebar .matchmaking-btn,
+.sub-sidebar .crew-nav-btn,
+.sub-sidebar .crew-btn,
+.main-page-active .sub-sidebar .matchmaking-btn,
+.main-page-active .sub-sidebar .crew-nav-btn,
+.main-page-active .sub-sidebar .crew-btn,
+.chat-header.blue .crew-nav-btn,
+.main-page-active .chat-header.blue .crew-nav-btn {
+  transform: none !important;
+  transition: none !important;
+  animation: none !important;
+  will-change: auto !important;
+  opacity: 1 !important;
+}
+
+.chat-header.red .room-controls button:hover,
+.chat-header.green .room-controls button:hover,
+.chat-header.yellow .room-controls button:hover,
+.chat-header.yellow .discover-btn:hover,
+.chat-header.green .byteshop-green-btn:hover,
+.chat-header.yellow .virello-yellow-btn:hover,
+.main-page-active .chat-header.red .room-controls button:hover,
+.main-page-active .chat-header.green .room-controls button:hover,
+.main-page-active .chat-header.yellow .room-controls button:hover,
+.main-page-active .chat-header.yellow .discover-btn:hover,
+.main-page-active .chat-header.green .byteshop-green-btn:hover,
+.main-page-active .chat-header.yellow .virello-yellow-btn:hover,
+/* Tüm olası seçiciler için hover */
+.sub-sidebar .room-controls button:hover,
+.sub-sidebar .discover-btn:hover,
+.sub-sidebar .byteshop-green-btn:hover,
+.sub-sidebar .virello-yellow-btn:hover,
+.main-page-active .sub-sidebar .room-controls button:hover,
+.main-page-active .sub-sidebar .discover-btn:hover,
+.main-page-active .sub-sidebar .byteshop-green-btn:hover,
+.main-page-active .sub-sidebar .virello-yellow-btn:hover,
+/* Tüm olası buton seçicileri hover */
+.sub-sidebar button[class*="room-controls"]:hover,
+.sub-sidebar button[class*="discover"]:hover,
+.sub-sidebar button[class*="byteshop"]:hover,
+.sub-sidebar button[class*="virello"]:hover,
+.main-page-active .sub-sidebar button[class*="room-controls"]:hover,
+.main-page-active .sub-sidebar button[class*="discover"]:hover,
+.main-page-active .sub-sidebar button[class*="byteshop"]:hover,
+.main-page-active .sub-sidebar button[class*="virello"]:hover,
+/* Katıl ve Arkadaşlar butonları için özel seçiciler hover */
+.sub-sidebar .matchmaking-btn:hover,
+.sub-sidebar .crew-nav-btn:hover,
+.sub-sidebar .crew-btn:hover,
+.main-page-active .sub-sidebar .matchmaking-btn:hover,
+.main-page-active .sub-sidebar .crew-nav-btn:hover,
+.main-page-active .sub-sidebar .crew-btn:hover,
+.chat-header.blue .crew-nav-btn:hover,
+.main-page-active .chat-header.blue .crew-nav-btn:hover {
+  transform: none !important;
+  box-shadow: none !important;
+  animation: none !important;
+  will-change: auto !important;
+  opacity: 1 !important;
+}
+
+/* Ana sayfa butonu aktif olduğunda glow efekti */
+.main-page-active .sub-sidebar::before {
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+}
+
+/* Ana sayfa butonu aktif olduğunda section header'ı vurgula */
+.main-page-active .section-header .section-title {
+  color: #fff;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
+.main-page-active .section-header .section-title::after {
+  background: rgba(255, 255, 255, 0.8);
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+/* Ana Sayfa sekmeleri için özel daire çizgi */
+.main-page-active .glow-vertical-divider:not(.right) {
+  position: relative;
+  overflow: visible;
+}
+
+.main-page-active .glow-vertical-divider:not(.right)::after {
+  content: '';
+  position: absolute;
+  bottom: -50px;
+  left: 50%;
+  width: 100px;
+  height: 50px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 50px 50px 0 0;
+  transform: translateX(-50%);
+  z-index: 1;
+}
+
+/* Ana Sayfa'da sol dikey çizginin alt kısmında yatay çizgi */
+.main-page-active .glow-vertical-divider:not(.right)::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 200px;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 0 0 0 20px;
+  z-index: 1;
+}
+
+/* Ana Sayfa sekmeleri için özel çerçeve çizgi */
+.main-page-active .glow-vertical-divider:not(.right) {
+  position: relative;
+  overflow: visible;
+}
+
+/* Sol dikey çizgi */
+.main-page-active .glow-vertical-divider:not(.right)::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 2px;
+  height: 100vh;
+  background: rgba(255, 255, 255, 0.3);
+  z-index: 1;
+}
+
+/* Alt yatay çizgi ve sağ alt köşe daire */
+.main-page-active .glow-vertical-divider:not(.right)::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: calc(100vw - 310px);
+  height: 2px;
+  background: rgba(255, 255, 255, 0.3);
+  z-index: 1;
+}
+
+
+
+/* Ana Sayfa için çerçeve (üst ve alt çizgiler) */
+body.main-page-active::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 51px;
+  right: 10px;
+  height: 1px;
+  background-color: rgba(255, 255, 255, 0.3);
+  z-index: 9999;
+}
+
+/* Ana sayfa aktif olduğunda sub-sidebar'ın tamamen görünür olması için */
+.main-page-active .sub-sidebar {
+  overflow: visible !important;
+}
+
+.main-page-active .sub-sidebar .top-horizontal-panel {
+  overflow: visible !important;
+  clip: auto !important;
+  z-index: 10002 !important;
+}
+
+
+
+.sidebar-box {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.13);
+  border-radius: 14px;
+  padding: 12px 5px 10px 5px; /* Sağ ve sol padding'i azalt */
+  margin-bottom: 0;
+  box-shadow: 0 2px 8px 0 rgba(0,0,0,0.03);
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  width: 100%; /* Tam genişlik */
+  box-sizing: border-box;
+}
+
+.sidebar-box.sohbet-baslat-box {
+  background: rgba(255,255,255,0.06) !important;
+  border: 1px solid rgba(255,255,255,0.13) !important;
+  border-radius: 14px 0 0 0 !important;
+  box-shadow: 0 2px 8px 0 rgba(0,0,0,0.03) !important;
+  padding: 6px 10px 26px 10px !important; /* Alt paddingi 10px daha artırıldı */
+  margin-top: 16px !important;
+  margin-bottom: 0 !important;
+  min-height: unset !important;
+}
+
+.sidebar-box.sohbet-baslat-box .section-header {
+  width: 100%;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
+
+.sidebar-box.sohbet-baslat-box .section-title {
+  text-align: center !important;
+  width: 100%;
+  display: block !important;
+  margin-top: 5px;
+  padding-top: 5px;
+}
+
+.sidebar-box.sohbet-baslat-box .section-header {
+  padding-top: 5px;
+}
+
+body > div.sub-sidebar > div.sidebar-box.sohbet-baslat-box > div > span {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+  display: inline-block !important;
+  transform: translateY(2px) !important;
+}
+
+.sidebar-box.katil-box {
+  position: relative;
+  overflow: visible;
+  box-shadow: none !important;
+    border-radius: 0 !important;
+  z-index: 1;
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-right: 0; /* Sağ padding'i kaldır */
+    padding-left: 0; /* Sol padding'i kaldır */
+    transform: translateY(2px); /* 1px yerine 2px yap (1px aşağı indir) */
+    width: 100%; /* Tam genişlik */
+    box-sizing: border-box;
+}
+
+.sidebar-box.katil-box button {
+  margin-bottom: 2px;
+  border: none !important;
+  opacity: 0.5;
+  margin-left: 0; /* Sol margin'i kaldır */
+  margin-right: 0; /* Sağ margin'i kaldır */
+  width: 100%; /* Tam genişlik */
+  box-sizing: border-box;
+  padding-left: 40px; /* Sol padding'i koru */
+  padding-right: 20px; /* Sağ padding'i daha da artır */
+}
+
+.sidebar-box.katil-box button:first-child {
+  margin-top: 0;
+}
+
+.sidebar-box.katil-box button:last-child {
+  margin-bottom: 0;
+}
+
+.sidebar-box {
+  margin-bottom: 0;
+}
+
+.sub-sidebar .sidebar-box + .sidebar-box {
+  margin-top: 0 !important;
+}
+
+.sidebar-box.dm-box {
+  background: rgba(255,255,255,0.06) !important;
+  border: 1px solid rgba(255,255,255,0.13) !important;
+  border-radius: 0 !important;
+  box-shadow: 0 2px 8px 0 rgba(0,0,0,0.03) !important;
+  padding: 6px 10px 6px 10px !important;
+  margin-top: 0 !important;
+  margin-bottom: 6px !important;
+  min-height: 725px !important;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transform: translateY(4px) !important; /* Sadece bu kutuyu 4px aşağı kaydır */
+}
+
+.sidebar-box.dm-box .sohbet-baslat {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.sidebar-box.dm-box .dm-list {
+  flex-grow: 1;
+  overflow-y: auto;
+  margin-top: 2px;
+  margin-bottom: 0;
+}
+
+.center-framed-panel {
+  background: rgba(255,255,255,0.06) !important;
+  border: 1px solid rgba(255,255,255,0.13) !important;
+  border-radius: 0 !important; /* Köşeleri düz yap */
+  box-shadow: 0 2px 8px 0 rgba(0,0,0,0.03) !important;
+  padding: 0 2vw 16px 2vw !important; /* responsive yatay padding */
+  margin: 0 auto !important;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 1320px !important;
+  max-width: 1320px !important;
+  min-width: 220px;
+  box-sizing: border-box;
+  overflow: visible;
+  position: relative;
+  left: 4px; /* Daha fazla sola kaydır */
+  min-height: 43px !important; /* Sohbet Başlat paneliyle aynı yükseklik */
+  margin-bottom: 0 !important;
+}
+
+.room-controls {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.room-controls button,
+.room-controls input {
+  flex: 1 1 120px;
+  min-width: 90px;
+  max-width: 180px;
+  box-sizing: border-box;
+  margin: 0;
+}
+
+@media (max-width: 600px) {
+  .center-framed-panel {
+    max-width: 98vw;
+    padding: 0 1vw 12px 1vw !important;
+  }
+  .room-controls button,
+  .room-controls input {
+    min-width: 70px;
+    font-size: 12px;
+    padding: 6px 8px;
+  }
+}
+
+.chat-header.blue.center-framed-panel {
+  border: 1px solid rgba(255,255,255,0.13) !important;
+  width: 1320px !important;
+  max-width: 1320px !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+}
+
+/* --- SADECE KATIL SEKMESI ICIN RESPONSIVE --- */
+.join-controls {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.join-controls button,
+.join-controls input {
+  flex: 1 1 120px;
+  min-width: 90px;
+  max-width: 180px;
+  box-sizing: border-box;
+  margin: 0;
+}
+
+@media (max-width: 600px) {
+  .join-controls button,
+  .join-controls input {
+    min-width: 70px;
+    font-size: 12px;
+    padding: 6px 8px;
+  }
+}
+
+/* --- ESKI .room-controls responsive kodlarini kaldir --- */
+.room-controls {
+  /* Sadece eski haline dondur, responsive olmasin */
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  box-sizing: border-box;
+  margin-top: 8px; /* Kategori Seç ve Rank Seç butonlarını biraz aşağı kaydır */
+}
+
+.room-controls button,
+.room-controls input {
+  flex: none;
+  min-width: unset;
+  max-width: unset;
+  font-size: inherit;
+  padding: 8px 18px;
+}
+
+.chat-header.red.center-framed-panel {
+  width: 1271px !important; /* 1261px + 10px (sadece sağ taraf genişliyor) */
+  max-width: 1271px !important;
+  left: 400px !important; /* Sol tarafı 400px mesafede sabit tut */
+  right: auto !important;
+  transform: none !important; /* Transform'u kaldır */
+}
+
+.chat-header.red.center-framed-panel .room-controls {
+  justify-content: center !important;
+  width: 100%;
+    margin-left: 0; /* -15px'den 0'a değiştir */
+  margin-top: 8px; /* Kategori Seç ve Rank Seç butonlarını biraz aşağı kaydır */
+    position: relative;
+}
+
+.chat-header.red.center-framed-panel,
+.chat-header.blue.center-framed-panel,
+.chat-header.green.center-framed-panel,
+.chat-header.yellow.center-framed-panel {
+  background: rgba(255,255,255,0.06) !important;
+  border: 1px solid rgba(255,255,255,0.13) !important;
+}
+
+#discover-headers {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+
+.main-content {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+
+.chat-header.red.center-framed-panel {
+  top: 14px !important;
+}
+
+/* Mağaza, Keşfet, Arkadaşlar panellerindeki butonları da aynı şekilde aşağı kaydır */
+.chat-header.green.center-framed-panel .room-controls,
+.chat-header.yellow.center-framed-panel .room-controls,
+.chat-header.blue.center-framed-panel .room-controls {
+  margin-top: 8px; /* Butonları biraz aşağı kaydır */
+}
+
+/* Mağaza, Keşfet, Arkadaşlar panellerine aynı boyut ve konum uygula */
+.chat-header.green.center-framed-panel,
+.chat-header.yellow.center-framed-panel,
+.chat-header.blue.center-framed-panel {
+  width: 1300px !important; /* 1307.5px - 0.5px (sağ tarafa uzunluk 1639px olacak) */
+  max-width: 1307px !important;
+  left: 332px !important; /* Sol tarafı 332px mesafede sabit tut */
+  right: auto !important;
+  transform: none !important; /* Transform'u kaldır */
+  top: 14px !important; /* Katıl kutusu ile aynı hizada */
+}
+
+.chat-header.red.center-framed-panel {
+  width: 1271px !important; /* 1261px + 10px (sadece sağ taraf genişliyor) */
+  max-width: 1271px !important;
+  left: 332px !important; /* Sol tarafı 332px mesafede sabit tut */
+  right: auto !important;
+  transform: none !important; /* Transform'u kaldır */
+}
+
+.chat-header.red.center-framed-panel {
+  width: 1307px !important; /* 1307.5px - 0.5px (sağ tarafa uzunluk 1639px olacak) */
+  max-width: 1307px !important;
+  left: 332px !important; /* Sol tarafı 332px mesafede sabit tut */
+  right: auto !important;
+  transform: none !important; /* Transform'u kaldır */
+}
+
+/* Center Window Box */
+.center-window-box {
+  position: absolute;
+  top: 83%;
+  left: calc(50% - 140px);
+  transform: translate(-50%, -50%);
+  width: 420px;
+  height: 90px;
+  background: rgba(47, 49, 54, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  border-radius: 12px;
+  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.03);
+  z-index: 10;
+}
+
+.small-center-window-box {
+    position: absolute;
+    bottom: 29%;
+    left: 0;
+    width: 1265px;
+    height: 575px;
+    background: rgba(47, 49, 54, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.13);
+    border-radius: 10px;
+    box-shadow: 0 2px 8px 0 rgba(0,0,0,0.08);
+    z-index: 11;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    color: #fff;
+    font-size: 15px;
+}
+
+.inner-center-window-box {
+    width: 340px;
+    height: 575px;
+    background: rgba(47, 49, 54, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.13);
+    border-radius: 12px;
+    box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.03);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    color: #fff;
+    font-size: 16px;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 12;
+    overflow: hidden;
+}
+
+.chat-messages-area {
+    flex: 1 1 auto;
+  width: 100%;
+    padding: 16px 12px 8px 12px;
+    overflow-y: auto;
+    box-sizing: border-box;
+}
+
+.chat-input-bar {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding: 10px 10px 10px 10px;
+    background: rgba(30,30,30,0.18);
+    border-top: 1px solid rgba(255,255,255,0.08);
+    box-sizing: border-box;
+}
+
+.chat-input {
+    flex: 1 1 auto;
+    padding: 8px 12px;
+    border-radius: 6px;
+    border: none;
+    background: rgba(255,255,255,0.08);
+    color: #fff;
+    font-size: 15px;
+    margin-right: 8px;
+    outline: none;
+}
+
+.chat-send-btn {
+    padding: 8px 18px;
+    border-radius: 6px;
+    border: none;
+    background: linear-gradient(135deg, #00aaff, #8800ff);
+    color: #fff;
+    font-weight: bold;
+    font-size: 15px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.chat-send-btn:hover {
+    background: linear-gradient(135deg, #0099dd, #6a00cc);
+}
+
+body.main-page-active .window-controls-vertical-panel {
+    position: fixed;
+    top: 104px; /* Changed from 49px */
+    right: 4px;
+    width: 275px;
+    height: 864px;
+    background: rgba(255, 255, 255, 0.06) !important;
+    border: 1px solid rgba(255, 255, 255, 0.13) !important;
+    border-radius: 0 0 14px 0;
+    z-index: 9999;
+    box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.03) !important;
+    box-sizing: border-box;
+}
+
+#find-header {
+  transform: translateY(16px) !important; /* Move down 16px (increased from 15px) */
+}
+
+#store-header {
+  transform: translateY(16px) !important; /* Move down 16px like find-header */
+}
+
+#discoverTab-header {
+  transform: translateY(16px) !important; /* Move down 16px like find-header */
+}
+
+#friends-header {
+  transform: translateY(16px) !important; /* Move down 16px like find-header */
+}
+
+#find-content > #team-search-inline-panel {
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  align-self: flex-start !important;
+  flex-grow: 0 !important;
+  flex-shrink: 1 !important;
+  margin-top: 32px;
+}
+
+.sidebar-box.ses-sohbet-box {
+  background: rgba(255,255,255,0.06) !important;
+  border: 1px solid rgba(255,255,255,0.13) !important;
+  border-radius: 0 0 0 14px !important;
+  box-shadow: 0 2px 8px 0 rgba(0,0,0,0.03) !important;
+  padding: 12px 10px 10px 10px !important;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  min-height: unset !important;
+  
+  /* Ayrı pencere olarak alt konumda durması için */
+  position: absolute !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  z-index: 1000 !important;
+}
+
+.sidebar-box.ses-sohbet-box .section-header {
+  width: 100%;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
+
+.sidebar-box.ses-sohbet-box .section-title {
+  font-size: 12px !important;
+  font-style: italic !important;
+  text-decoration: underline !important;
+  text-underline-offset: 2px !important;
+  font-weight: 400 !important;
+}
+
+#rankBtn.active-green:hover {
+  background-color: rgba(255, 255, 255, 0.5) !important;
+}
+
+/* Apply store white/transparent style to other sections */
+/* Katıl section buttons - apply white/transparent style like store */
+.chat-header.red .room-controls button,
+.chat-header.green .room-controls button,
+.chat-header.yellow .room-controls button {
+    background: transparent !important;
+    color: rgba(255, 255, 255, 0.5) !important;
+    border: none !important;
+    font-weight: bold !important;
+    border-radius: 999px !important;
+    font-size: 11px !important;
+    padding: 0 14px !important;
+    height: 28px !important;
+    transition: none !important;
+    transform: none !important;
+    animation: none !important;
+}
+
+.chat-header.red .room-controls button:hover,
+.chat-header.green .room-controls button:hover,
+.chat-header.yellow .room-controls button:hover {
+  background: transparent !important;
+  transform: none !important;
+  box-shadow: none !important;
+  animation: none !important;
+}
+
+.chat-header.red .room-controls button.selected,
+.chat-header.red .room-controls button.active,
+.chat-header.green .room-controls button.selected,
+.chat-header.green .room-controls button.active,
+.chat-header.yellow .room-controls button.selected,
+.chat-header.yellow .room-controls button.active {
+  color: #fff !important;
+  background: transparent !important;
+}
+
+/* Keşfet section buttons - apply white/transparent style like store */
+.chat-header.yellow .discover-btn {
+  background: transparent !important;
+  color: rgba(255, 255, 255, 0.5) !important;
+  border: none !important;
+  font-weight: 500 !important;
+  border-radius: 999px !important;
+  font-size: 11px !important;
+  padding: 0 14px !important;
+  height: 28px !important;
+  transition: none !important;
+  transform: none !important;
+  animation: none !important;
+}
+
+.chat-header.yellow .discover-btn:hover {
+  background: transparent !important;
+  color: rgba(255, 255, 255, 0.5) !important;
+  transform: none !important;
+  box-shadow: none !important;
+  border-color: transparent !important;
+  animation: none !important;
+}
+
+.chat-header.yellow .discover-btn.selected,
+.chat-header.yellow .discover-btn.active {
+  color: #fff !important;
+  background: transparent !important;
+}
+
+/* Arkadaşlar section buttons - apply white/transparent style like store */
+.chat-header.blue .crew-nav-btn {
+  background: transparent !important;
+  color: rgba(255, 255, 255, 0.5) !important;
+  border: none !important;
+  font-weight: 500 !important;
+  border-radius: 999px !important;
+  font-size: 11px !important;
+  padding: 0 14px !important;
+  height: 28px !important;
+  transition: none !important;
+}
+
+.chat-header.blue .crew-nav-btn:hover {
+  background: transparent !important;
+  color: rgba(255, 255, 255, 0.5) !important;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+.chat-header.blue .crew-nav-btn.active {
+  color: #fff !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+/* Mağaza section buttons - apply arkadaşlar style */
+.chat-header.green .byteshop-green-btn {
+  background: transparent !important;
+  color: rgba(255, 255, 255, 0.5) !important;
+  border: none !important;
+  font-weight: 500 !important;
+  border-radius: 999px !important;
+  font-size: 11px !important;
+  padding: 0 14px !important;
+  height: 28px !important;
+  transition: none !important;
+  transform: none !important;
+  animation: none !important;
+}
+
+.chat-header.green .byteshop-green-btn:hover {
+  background: transparent !important;
+  color: rgba(255, 255, 255, 0.5) !important;
+  transform: none !important;
+  box-shadow: none !important;
+  animation: none !important;
+}
+
+.chat-header.green .byteshop-green-btn.selected,
+.chat-header.green .byteshop-green-btn.active {
+  color: #fff !important;
+  background: transparent !important;
+}
+
+/* Override virello-yellow-btn for Keşfet section */
+.chat-header.yellow .virello-yellow-btn {
+  background: transparent !important;
+  color: rgba(255, 255, 255, 0.5) !important;
+  border: none !important;
+  font-weight: 500 !important;
+  border-radius: 999px !important;
+  font-size: 11px !important;
+  padding: 0 14px !important;
+  height: 28px !important;
+  opacity: 1 !important;
+  margin-left: 0 !important;
+  transition: none !important;
+  transform: none !important;
+  animation: none !important;
+}
+
+.chat-header.yellow .virello-yellow-btn:hover {
+  background: transparent !important;
+  color: rgba(255, 255, 255, 0.5) !important;
+  transform: none !important;
+  box-shadow: none !important;
+  border-color: transparent !important;
+  animation: none !important;
+}
+
+.chat-header.yellow .virello-yellow-btn.selected,
+.chat-header.yellow .virello-yellow-btn.active {
+  color: #fff !important;
+  background: transparent !important;
+}
+
+.mini-sidebar-divider {
+  width: 28px;
+  height: 1.5px;
+  background: linear-gradient(to right, transparent 10%, #fff3 50%, transparent 90%);
+  margin: 7px 0 7px 0;
+  border-radius: 1px;
+}
+
+/* Katıl sekmesindeki buton stilini mağaza sekmesindeki butonlara uygula */
+.chat-header.green .room-controls button,
+.chat-header.green .byteshop-green-btn {
+    background: transparent !important;
+    color: rgba(255, 255, 255, 0.5) !important;
+    border: none !important;
+    font-weight: 500 !important;
+    border-radius: 999px !important;
+    font-size: 11px !important;
+    padding: 0 14px !important;
+    height: 28px !important;
+    transition: none !important;
+    transform: none !important;
+    animation: none !important;
+}
+
+/* Mağaza sekmesindeki eski buton stillerini kaldır */
+/* .chat-header.green .byteshop-green-btn { ... } */
+
+/* Mağaza sekmesindeki 'Kutu Aç' butonunun arka planını ve efektlerini kaldır */
+.chat-header.green .room-controls .byteshop-green-btn {
+    background: none !important;
+    color: rgba(255, 255, 255, 0.5) !important;
+    border: none !important;
+    font-weight: 500 !important;
+    font-size: 11px !important;
+    padding: 0 14px !important;
+    height: 28px !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    transition: none !important;
+    transform: none !important;
+    animation: none !important;
+}
+
+.chat-header.green .room-controls .byteshop-green-btn:active,
+.chat-header.green .room-controls .byteshop-green-btn.selected,
+.chat-header.green .room-controls .byteshop-green-btn:focus {
+    background: none !important;
+    color: #fff !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+}
+
+/* Keşfet sekmesindeki 'Kısa' butonlarına da sade stil uygula */
+.chat-header.yellow .room-controls .virello-yellow-btn {
+    background: none !important;
+    color: rgba(255, 255, 255, 0.5) !important;
+    border: none !important;
+    font-weight: 500 !important;
+    font-size: 11px !important;
+    padding: 0 14px !important;
+    height: 28px !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    transition: none !important;
+    transform: none !important;
+    animation: none !important;
+}
+
+.chat-header.yellow .room-controls .virello-yellow-btn:active,
+.chat-header.yellow .room-controls .virello-yellow-btn.selected,
+.chat-header.yellow .room-controls .virello-yellow-btn:focus {
+    background: none !important;
+    color: #fff !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+}
+
+.friends-small-center-window-box {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 260px;
+  height: 60px;
+  background: rgba(80, 80, 100, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 12px;
+  box-shadow: 0 2px 8px 0 rgba(0,0,0,0.10);
+  z-index: 12;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 16px;
+}
+
+.friends-header-center-popup {
+  position: fixed;
+  top: 49px;
+  left: 332px;
+  width: 400px;
+  height: 80px;
+  background: rgba(80, 80, 100, 0.92) !important;
+  border: 1px solid rgba(255,255,255,0.18) !important;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px 0 rgba(0,0,0,0.10);
+  z-index: 12000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 15px;
+  padding: 0 32px;
+}
+.friends-header-center-popup > div {
+  position: static !important;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  width: auto;
+  margin: 0;
+}
+.friends-header-center-popup span {
+  margin: 0 !important;
+  font-size: 16px !important;
+  font-weight: 500 !important;
+  color: #fff !important;
+  line-height: 1.2 !important;
+}
+
+.center-header-popup {
+    position: fixed;
+    top: 75px; /* Changed from 49px */
+    left: 332px;
+    transform: none;
+    width: 1298px;
+    height: 891px;
+    background: rgba(255,255,255,0.06) !important;
+    border: 1px solid rgba(255,255,255,0.13) !important;
+    border-radius: 0;
+    box-shadow: 0 2px 8px 0 rgba(0,0,0,0.10);
+    z-index: 12000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 15px;
+}
+
+.chat-header.green .discover-btn.active,
+.chat-header.green .byteshop-green-btn.active {
+  color: #fff !important;
+  background: transparent !important;
+}
+
+.chat-header.yellow .discover-btn.active,
+.chat-header.yellow .virello-yellow-btn.active {
+  color: #fff !important;
+  background: transparent !important;
+}
+
+.chat-header.red .discover-btn.active,
+.chat-header.red .red-btn.active {
+  color: #fff !important;
+  background: transparent !important;
+}
+
+.participants-grid-container {
+    margin-top: 85vh;
+    margin-left: -280px;
+    width: 400px;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 5px;
+    padding: 10px;
+    background-color: rgba(47, 49, 54, 0.5);
+    border: 1px solid #4f545c;
+    border-radius: 12px;
+}
+
+.participant-window {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  border: 2px solid #4f545c;
+  background-color: #2f3136;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 1.2em;
+  font-weight: bold;
+  transition: all 0.2s ease-in-out;
+}
+
+.participant-window:hover {
+    border-color: #7289da;
+    transform: scale(1.05);
+}
+
+.discover-content-area>div:not(.active) {
+  display: none;
+}
+
+.matchmaking-btn,
+.byteshop-btn,
+.virello-btn,
+.crew-btn {
+    font-weight: bold !important;
+}
+
+.chat-header .panel-title-row span,
+.room-controls button,
+.discover-btn {
+    font-weight: bold !important;
+}
+
+.red-btn,
+.small,
+.discover-btn {
+    font-weight: bold !important;
+}
+
+.byteshop-green-btn,
+.store-nav-btn,
+.virello-yellow-btn,
+.discover-nav-btn {
+    font-weight: bold !important;
+}
+
+.discover-btn.small.byteshop-green-btn,
+.discover-btn.small.virello-yellow-btn,
+.discover-btn.small.red-btn {
+    font-weight: bold !important;
+}
+
+.chat-header.green .room-controls .discover-btn,
+.chat-header.yellow .room-controls .discover-btn {
+    font-weight: bold !important;
+}
+
+/* === ÇAKIŞAN KURAL TEMİZLENDİ === */
+
+/* === SEÇİLİ BUTONLAR KATIL/MAĞAZA/KEŞFET GİBİ ÇALIŞIR === */
+.icon-button[title="Ana Sayfa"].active,
+.icon-button[title="Sunucu Oluştur"].active,
+.icon-button[title="Sunucu Keşfet"].active {
+  background-color: transparent !important;
+  color: white !important;
+  font-weight: bold;
+  border: 1px solid rgba(255, 105, 180, 0.3) !important;
+  width: 33px !important;
+  margin-left: -1px !important;
+  margin-right: -1px !important;
+}
+
+.icon-button[title="Ana Sayfa"].active img,
+.icon-button[title="Sunucu Oluştur"].active img,
+.icon-button[title="Sunucu Keşfet"].active img {
+  filter: brightness(0) invert(1) !important;
+}
+
+.icon-button[title="Ana Sayfa"].active:hover,
+.icon-button[title="Sunucu Oluştur"].active:hover,
+.icon-button[title="Sunucu Keşfet"].active:hover {
+  background-color: rgba(255, 105, 180, 0.5) !important;
+  border: 1px solid rgba(255, 105, 180, 0.5) !important;
+  box-shadow: 0 0 15px rgba(255, 105, 180, 0.6) !important;
+  width: 33px !important;
+  margin-left: -1px !important;
+  margin-right: -1px !important;
+}
+
+.icon-button[title="Ana Sayfa"].active:hover img,
+.icon-button[title="Sunucu Oluştur"].active:hover img,
+.icon-button[title="Sunucu Keşfet"].active:hover img {
+  filter: brightness(0) invert(1) !important;
+}
+
+/* === EN GÜÇLÜ HOVER KURALI - DOSYANIN SONUNDA === */
+html body .main-screen .mini-sidebar .icon-button[title="Ana Sayfa"]:hover {
+  width: 38px !important;
+  margin-left: -1px !important;
+  margin-right: -4px !important;
+  background-color: #ff4fcf !important;
+  border-color: #ff4fcf !important;
+  box-shadow: 0 0 8px 2px #ff4fcf80 !important;
+  z-index: 10 !important;
+}
+
+/* === SADECE SUNUCU KEŞFET BUTONU İÇİN ÖZEL KURAL === */
+html body .main-screen .mini-sidebar .icon-button[title="Sunucu Keşfet"] {
+  width: 36px !important;
+  margin-right: -2px !important;
+}
+
+/* === SUNUCU KEŞFET BUTONU HOVER DURUMU === */
+html body .main-screen .mini-sidebar .icon-button[title="Sunucu Keşfet"]:hover {
+  width: 36px !important;
+  margin-right: -2px !important;
+  background-color: #ff4fcf !important;
+  border-color: #ff4fcf !important;
+}
+
+/* === SUNUCU KEŞFET BUTONU ACTIVE DURUMU === */
+html body .main-screen .mini-sidebar .icon-button[title="Sunucu Keşfet"].active {
+  width: 36px !important;
+  margin-right: -2px !important;
+}
+
+.center-header-popup > div > div[style*="width: 230px;"][style*="left: -2px"] {
+  border-radius: 18px 0 0 18px !important;
+}
+
+/* Takım Bul Popup Sol Panel: SAĞ köşeler düz */
+.center-header-popup > div > div[style*="width: 230px;"][style*="left: -2px"] {
+  border-radius: 18px 0 0 18px !important;
+}
+/* Takım Bul Popup Sağ Panel: SAĞ köşeler kavisli */
+.center-header-popup > div > div[style*="width: 230px;"][style*="right: -2px"] {
+  border-radius: 0 18px 18px 0 !important;
+}
+
+/* === index.html'den taşınan özel popup ve takım arama CSS kodları === */
+#popup-game-items,
+#popup-rank-items,
+#popup-lang-items {
+  overflow-y: auto;
+  scrollbar-width: none; /* Firefox */
+}
+#popup-game-items::-webkit-scrollbar,
+#popup-rank-items::-webkit-scrollbar,
+#popup-lang-items::-webkit-scrollbar {
+  width: 0 !important;
+  display: none;
+}
+#popup-game-items {
+  scrollbar-width: none; /* Firefox */
+  overflow-y: auto;
+  box-sizing: border-box;
+  padding-right: 0;
+}
+#popup-game-items::-webkit-scrollbar {
+  width: 0 !important; /* Chrome, Safari, Opera */
+  display: none;
+}
+#popup-game-list > h3,
+#popup-rank-list > h3,
+#popup-language-list > h3,
+#popup-team-search > h3 {
+  text-align: center !important;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  font-weight: bold;
+  display: block;
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+.game-item:hover,
+.rank-item:hover,
+.lang-item:hover {
+  background: #333 !important;
+  transition: background 0.18s;
+}
+#popup-team-search {
+  position: relative;
+  height: 100%;
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+#popup-team-search > h3 {
+  text-align: center;
+  font-weight: bold;
+  margin-bottom: 15px;
+  z-index: 1;
+}
+.takim-ara-btn-group {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  width: 100%;
+  position: static;
+  margin-top: 25px;
+  z-index: 2;
+}
+.takim-ara-btn-group button {
+  width: 100%;
+  padding: 6px 16px;
+  font-size: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 6px;
+  cursor: pointer;
+  margin-bottom: 10px;
+  font-weight: 500;
+  transition: background 0.18s;
+  backdrop-filter: blur(5px);
+  box-sizing: border-box;
+  text-align: left;
+}
+#takimAraBtn {
+  background: rgba(224, 64, 251, 0.5) !important;
+  color: white !important;
+}
+#takimAraBtn.iptal-modu {
+  background: rgba(255, 68, 68, 0.5) !important;
+  color: white !important;
+}
+#ozelOdaAraBtn {
+  background: rgba(255, 214, 0, 0.5) !important;
+  color: #222 !important;
+}
+#ozelOdaAraBtn.iptal-modu {
+  background: rgba(255, 68, 68, 0.5) !important;
+  color: white !important;
+}
+#herIkisiniAraBtn {
+  background: rgba(255, 152, 0, 0.5) !important;
+  color: #222 !important;
+  margin-bottom: 0;
+}
+#herIkisiniAraBtn.iptal-modu {
+  background: rgba(255, 68, 68, 0.5) !important;
+  color: white !important;
+}
+#herIkisiniAraBtn::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 1px;
+}
+.takim-arama-animasyon {
+  width: calc(100% + 40px);
+  height: calc(680px - 200px);
+  background: #000;
+  border-radius: 6px;
+  overflow: hidden;
+  margin-top: 15px;
+  margin-left: -20px;
+  margin-right: -20px;
+  position: relative;
+}
+.takim-arama-animasyon video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.takim-arama-animasyon .arama-baslik {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  color: #fff;
+  font-size: 14px;
+  font-weight: bold;
+  z-index: 2;
+}
+#takimBulPopup {
+  height: 100%;
+  min-height: 200px;
+  position: relative;
+}
+#popup-team-search > button {
+  width: 100%;
+  margin-top: auto !important;
+  margin-bottom: 0;
+  padding: 12px;
+  background: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+}
+#selected-info div {
+  font-size: 14px;
+  margin-bottom: 0;
+  text-align: left;
+  font-weight: 500;
+  display: block;
+  background: rgba(128, 128, 128, 0.3);
+  color: #fff;
+  padding: 6px 16px;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(5px);
+  width: 100%;
+  box-sizing: border-box;
+}
+#selected-info div:last-child {
+  border-bottom: none;
+  padding-bottom: 6px;
+  margin-bottom: 8px;
+  position: relative;
+}
+#selected-info div:last-child::after {
+  content: '';
+  position: absolute;
+  bottom: -18px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 1px;
+}
+#selected-info div strong {
+  font-weight: bold;
+  margin-right: 8px;
+}
+#selected-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-bottom: 15px;
+  width: 100%;
+}
+#popup-team-search h3 {
+  border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+  padding-bottom: 10px;
+  margin-bottom: 15px;
+}
+
+/* Sunucu Oluştur Popup Stilleri */
+.server-create-popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  backdrop-filter: blur(10px);
+}
+
+/* Popup açıkken arka planı saydam yap */
+body.popup-open {
+  transition: all 0.3s ease;
+}
+
+body.popup-open .main-content,
+body.popup-open .mini-sidebar,
+body.popup-open .sub-sidebar,
+body.popup-open .window-controls,
+body.popup-open .center-header-popup {
+  filter: blur(3px);
+  opacity: 0.3;
+  pointer-events: none;
+  transition: all 0.3s ease;
+}
+
+body.popup-open .server-create-popup {
+  filter: none !important;
+  opacity: 1 !important;
+  pointer-events: auto;
+}
+
+body.popup-open .server-create-popup * {
+  filter: none !important;
+  opacity: 1 !important;
+  pointer-events: auto;
+}
+
+.server-create-content {
+  width: 400px;
+  height: 350px;
+  background-color: rgba(40, 40, 40, 0.9);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.server-create-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 16px 20px;
+  background-color: rgba(60, 60, 60, 0.8);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+}
+
+.server-create-header h3 {
+  margin: 0;
+  color: #fff;
+  font-size: 18px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.close-popup-btn {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 0;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.close-popup-btn {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 0;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.close-popup-btn:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.server-create-body {
+  flex: 1;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.server-create-body p {
+  color: #ccc;
+  text-align: center;
+  margin: 0;
+}
+
+/* Sunucu Oluştur Butonları */
+.server-create-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+  padding: 5px 20px;
+  justify-content: flex-start;
+  padding-top: 5px;
+  margin-top: -10px;
+}
+
+/* İlk iki butonu yukarı çek */
+.server-create-buttons .server-btn:nth-child(1) {
+  margin-bottom: -8px;
+  transform: translateY(-28px);
+}
+
+.server-create-buttons .server-btn:nth-child(2) {
+  margin-bottom: -8px;
+  transform: translateY(-16px);
+}
+
+.server-create-buttons .server-btn:nth-child(3) {
+  margin-top: 16px;
+  transform: translateY(16px);
+}
+
+/* Davet yazısı */
+.invite-text {
+  font-weight: bold;
+  color: #fff;
+  text-align: center;
+  font-size: 14px;
+  margin: 8px 0;
+  padding: 5px 0;
+}
+
+.server-btn {
+  width: 100%;
+  padding: 15px 20px;
+  background-color: rgba(60, 60, 60, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+}
+
+.server-btn:hover {
+  background-color: rgba(80, 80, 80, 0.9);
+  border-color: rgba(255, 255, 255, 0.4);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.server-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+.top-horizontal-panel {
+  opacity: 0 !important;
+  position: fixed;
+  top: 0;
+  left: 50px; /* Align with katil-box left edge (sub-sidebar width) */
+  right: 5px; /* Align with window-controls right edge (4px + 233px) */
+  height: 26px; /* Increased from 10px to 25px (15px total extension) */
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.13);
+  
+  margin-bottom: 0;
+  box-shadow: 0 2px 8px 0 rgba(0,0,0,0.03);
+  z-index: 10002;
+  overflow: visible;
+  clip: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-right: 8px;
+}
+
+.clock-container {
+  position: fixed;
+  top: 3px;
+  left: calc(50% + 50px);
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  z-index: 10003;
+}
+
+.clock {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: #ffffff;
+  text-align: center;
+  letter-spacing: 1px;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+  opacity: 0.8;
+  transition: opacity 0.2s;
+  cursor: pointer;
+  transform: translateY(-2px);
+}
+
+.clock:hover {
+  opacity: 1;
+}
+
+.clock-icons-left {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.clock-icons {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.clock-icon {
+  width: 18px;
+  height: 18px;
+  filter: brightness(0) invert(1);
+  opacity: 0.8;
+  transition: opacity 0.2s;
+  cursor: pointer;
+  transform: translateY(-2px);
+}
+
+.clock-icon:hover {
+  opacity: 1;
+}
+
+.window-controls-right {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  position: fixed;
+  top: 3px;
+  right: 25px;
+  z-index: 10003;
+}
+
+.window-controls-right .clock-icon {
+  width: 18px;
+  height: 18px;
+  filter: brightness(0) invert(1);
+  opacity: 0.8;
+  transition: opacity 0.2s;
+  cursor: pointer;
+  transform: translateY(-2px);
+}
+
+.window-controls-right .clock-icon:hover {
+  opacity: 1;
+}
+
+.window-control-btn {
+  width: 22px;
+  height: 22px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  margin: 0;
+  outline: none;
+  box-shadow: none;
+}
+
+.window-control-btn img {
+  width: 13px;
+  height: 13px;
+  filter: brightness(0) invert(1);
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+.sidebar-box.sesli-sohbet-box {
+  background: rgba(255,255,255,0.06) !important;
+  border: 1px solid rgba(255,255,255,0.13) !important;
+  border-radius: 0 0 0 14px !important; /* sadece sol alt köşe yuvarlak */
+  box-shadow: 0 2px 8px 0 rgba(0,0,0,0.03) !important;
+  padding: 8px 10px 8px 10px !important;
+  margin-top: 8px !important;
+  margin-bottom: 0 !important;
+  min-height: 55px !important;
+  display: flex;
+  align-items: center;
+}
+
+.voice-warning {
+  color: #ffffff80;
+  font-size: 9px;
+  font-style: oblique;
+  text-decoration: underline;
+  text-decoration-color: #e53935;
+  text-underline-offset: 2px;
+  margin-top: -6px;
+  font-weight: 400;
+  letter-spacing: 0.1px;
+}
+
+/* Sesli sohbet ikonları */
+.sesli-sohbet-icons {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 17px;
+  width: 100%;
+  margin-top: 0;
+  padding-right: 15px;
+}
+
+.sesli-sohbet-icons-alt {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 17px;
+  width: 100%;
+  margin-top: 8px;
+  padding-right: 15px;
+}
+
+
+
+.sesli-sohbet-icon {
+  width: 18px;
+  height: 18px;
+  filter: brightness(0) invert(1);
+  opacity: 0.8;
+  transition: opacity 0.2s;
+  cursor: pointer;
+  transform: translateY(-2px);
+}
+
+.sesli-sohbet-icon:hover {
+  opacity: 1;
+}
+
+/* --- KALDIRILDI: .window-control-btn ve hover stilleri --- */
+.window-control-btn, .window-control-btn:hover, .window-control-btn:active {
+  all: unset !important;
+  display: none !important;
+}
+
+/* Kulaklık kapalı ikonu için kırmızı renk */
+#headphoneIcon[src*="headphoneoff.svg"] {
+  filter: brightness(0) saturate(100%) invert(27%) sepia(51%) saturate(2878%) hue-rotate(346deg) brightness(104%) contrast(97%) !important;
+}
+
+/* Mikrofon kapalı ikonu için kırmızı renk */
+#microphoneIcon[src*="micoff.svg"] {
+  filter: brightness(0) saturate(100%) invert(27%) sepia(51%) saturate(2878%) hue-rotate(346deg) brightness(104%) contrast(97%) !important;
+}
+
+/* Shadow Play kapalı ikonu için kırmızı renk */
+#shadowPlayIcon[src*="shadownplayoff.svg"] {
+  filter: brightness(0) saturate(100%) invert(27%) sepia(51%) saturate(2878%) hue-rotate(346deg) brightness(104%) contrast(97%) !important;
+}
+
+/* Haberler penceresi stilleri */
+.news-window {
+  position: fixed;
+  top: 50px;
+  left: 50px;
+  width: 350px;
+  height: 350px;
+  background: #2f3136;
+  border: 1px solid #40444b;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  z-index: 99999;
+  display: none;
+  overflow: hidden;
+}
+
+.news-window-content {
+  padding: 5px 20px 20px 20px;
+  color: #dcddde;
+  font-size: 13px;
+  line-height: 1.4;
+  height: 100%;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.news-title {
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: 600;
+  text-align: center;
+  margin: 0 0 20px 0;
+  text-decoration: underline;
+  text-underline-offset: 5px;
+}
+
+/* Hava Durumu penceresi stilleri */
+.weather-window {
+  position: fixed;
+  top: 50px;
+  left: 50px;
+  width: 350px;
+  height: 350px;
+  background: #2f3136;
+  border: 1px solid #40444b;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  z-index: 99999;
+  display: none;
+  overflow: hidden;
+}
+
+.weather-window-content {
+  padding: 5px 20px 20px 20px;
+  color: #dcddde;
+  font-size: 13px;
+  line-height: 1.4;
+  height: 100%;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.weather-title {
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: 600;
+  text-align: center;
+  margin: 0 0 20px 0;
+  text-decoration: underline;
+  text-underline-offset: 5px;
+}
+
+/* Deprem penceresi stilleri */
+.earthquake-window {
+  position: fixed;
+  top: 50px;
+  left: 50px;
+  width: 350px;
+  height: 350px;
+  background: #2f3136;
+  border: 1px solid #40444b;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  z-index: 99999;
+  display: none;
+  overflow: hidden;
+}
+
+.earthquake-window-content {
+  padding: 5px 20px 20px 20px;
+  color: #dcddde;
+  font-size: 13px;
+  line-height: 1.4;
+  height: 100%;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.earthquake-title {
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: 600;
+  text-align: center;
+  margin: 0 0 20px 0;
+  text-decoration: underline;
+  text-underline-offset: 5px;
+}
+
+/* Çeviri penceresi stilleri */
+.translation-window {
+  position: fixed;
+  top: 50px;
+  left: 50px;
+  width: 350px;
+  height: 350px;
+  background: #2f3136;
+  border: 1px solid #40444b;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  z-index: 99999;
+  display: none;
+  overflow: hidden;
+}
+
+.translation-window-content {
+  padding: 5px 20px 20px 20px;
+  color: #dcddde;
+  font-size: 13px;
+  line-height: 1.4;
+  height: 100%;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.translation-title {
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: 600;
+  text-align: center;
+  margin: 0 0 20px 0;
+  text-decoration: underline;
+  text-underline-offset: 5px;
+}
+
+/* ChatGPT penceresi stilleri */
+.chatgpt-window {
+  position: fixed;
+  top: 50px;
+  left: 50px;
+  width: 350px;
+  height: 350px;
+  background: #2f3136;
+  border: 1px solid #40444b;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  z-index: 99999;
+  display: none;
+  overflow: hidden;
+}
+
+.chatgpt-window-content {
+  padding: 5px 20px 20px 20px;
+  color: #dcddde;
+  font-size: 13px;
+  line-height: 1.4;
+  height: 100%;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.chatgpt-title {
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: 600;
+  text-align: center;
+  margin: 0 0 20px 0;
+  text-decoration: underline;
+  text-underline-offset: 5px;
+}
+
+/* Face penceresi stilleri */
+.face-window {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.45);
+  z-index: 20000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(12px);
+}
+.face-window-content {
+  width: 500px;
+  height: 750px;
+  background: #23272a;
+  border-radius: 36px;
+  box-shadow: 0 8px 32px 0 rgba(0,0,0,0.25);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 32px 24px 24px 24px;
+  position: relative;
+}
+.face-title {
+  color: #fff;
+  font-size: 28px;
+  font-weight: 600;
+  margin: 0 0 18px 0;
+  text-align: center;
+  letter-spacing: 1px;
+  border-bottom: 2px solid #fff2;
+  padding-bottom: 8px;
+  width: 100%;
+}
+
+/* Kur penceresi stilleri */
+.kur-window {
+  position: fixed;
+  top: 50px;
+  left: 50px;
+  width: 350px;
+  height: 350px;
+  background: #2f3136;
+  border: 1px solid #40444b;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  z-index: 99999;
+  display: none;
+  overflow: hidden;
+}
+
+.kur-window-content {
+  padding: 5px 20px 20px 20px;
+  color: #dcddde;
+  font-size: 13px;
+  line-height: 1.4;
+  height: 100%;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.kur-title {
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: 600;
+  text-align: center;
+  margin: 0 0 20px 0;
+  text-decoration: underline;
+  text-underline-offset: 5px;
+}
+
+/* Takvim penceresi stilleri */
+.calendar-window {
+  position: fixed;
+  top: 50px;
+  left: 50px;
+  width: 350px;
+  height: 350px;
+  background: #2f3136;
+  border: 1px solid #40444b;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  z-index: 99999;
+  display: none;
+  overflow: hidden;
+}
+
+.calendar-window-content {
+  padding: 5px 20px 20px 20px;
+  color: #dcddde;
+  font-size: 13px;
+  line-height: 1.4;
+  height: 100%;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.calendar-title {
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: 600;
+  text-align: center;
+  margin: 0 0 20px 0;
+  text-decoration: underline;
+  text-underline-offset: 5px;
+}
+
+.calendar-header {
+  margin-bottom: 15px;
+}
+
+.calendar-month {
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 5px;
+  width: 100%;
+}
+
+.calendar-day-header {
+  color: #72767d;
+  font-size: 12px;
+  font-weight: 600;
+  text-align: center;
+  padding: 8px 0;
+}
+
+.calendar-day {
+  color: #dcddde;
+  font-size: 14px;
+  text-align: center;
+  padding: 8px 0;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.calendar-day:hover {
+  background-color: #40444b;
+}
+
+.calendar-day.today {
+  background-color: #5865f2;
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.calendar-day.empty {
+  color: transparent;
+  cursor: default;
+}
+
+.calendar-day.empty:hover {
+  background-color: transparent;
+}
+
+#messageBtn, #adminBtn, #infoBtn {
+  margin-right: 13px;
+}
+#infoBtn {
+  margin-right: 0;
+}
+#infoBtn > img {
+  position: relative;
+  left: 2px;
+}
+#adminBtn > img, #messageBtn > img {
+  position: relative;
+  left: 0;
+}
+
+/* Hatırlatıcı penceresi stilleri */
+.reminder-window {
+  position: fixed;
+  top: 50px;
+  left: 50px;
+  width: 250px;
+  height: 250px;
+  background: #2f3136;
+  border: 1px solid #40444b;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  z-index: 99999;
+  display: none;
+  overflow: hidden;
+}
+
+.reminder-window-content {
+  padding: 10px 15px 15px 15px;
+  color: #dcddde;
+  font-size: 13px;
+  line-height: 1.4;
+  height: 100%;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.reminder-title {
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 600;
+  text-align: center;
+  margin: 0 0 10px 0;
+  text-decoration: underline;
+  text-underline-offset: 5px;
+}
+
+#alarmForm label {
+  font-size: 13px;
+  color: #dcddde;
+}
+#alarmForm input[type="time"], #alarmForm input[type="text"] {
+  background: #23272a;
+  border: 1px solid #40444b;
+  color: #fff;
+  border-radius: 4px;
+  padding: 3px 6px;
+  margin-top: 2px;
+  margin-bottom: 2px;
+}
+#alarmForm button[type="submit"] {
+  background: #5865f2;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 5px 16px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+#alarmForm button[type="submit"]:hover {
+  background: #4752c4;
+}
+
+/* Hesap makinesi penceresi stilleri */
+.calculator-window {
+  position: fixed;
+  top: 50px;
+  left: 50px;
+  width: 250px;
+  height: 250px;
+  background: #2f3136;
+  border: 1px solid #40444b;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  z-index: 99999;
+  display: none;
+  overflow: hidden;
+}
+
+.calculator-window-content {
+  padding: 10px 15px 15px 15px;
+  color: #dcddde;
+  font-size: 13px;
+  line-height: 1.4;
+  height: 100%;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.calculator-title {
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 600;
+  text-align: center;
+  margin: 0 0 10px 0;
+  text-decoration: underline;
+  text-underline-offset: 5px;
+}
+
+.calculator-display {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.calculator-display input {
+  width: 100%;
+  height: 30px;
+  background: #23272a;
+  border: 1px solid #40444b;
+  color: #fff;
+  border-radius: 4px;
+  padding: 5px;
+  font-size: 14px;
+  text-align: right;
+}
+
+.calculator-buttons {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 3px;
+  width: 100%;
+}
+
+.calculator-buttons button {
+  background: #40444b;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 4px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: background 0.2s;
+  height: 25px;
+}
+
+.calculator-buttons button:hover {
+  background: #5865f2;
+}
+
+.calculator-buttons button.equals {
+  grid-row: span 2;
+  height: auto;
+  background: #5865f2;
+}
+
+.calculator-buttons button.equals:hover {
+  background: #4752c4;
+}
+
+.calculator-buttons button.zero {
+  grid-column: span 2;
+}
+
+/* Not defteri penceresi stilleri */
+.note-window {
+  position: fixed;
+  top: 50px;
+  left: 50px;
+  width: 250px;
+  height: 250px;
+  background: #2f3136;
+  border: 1px solid #40444b;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  z-index: 99999;
+  display: none;
+  overflow: hidden;
+}
+
+.note-window-content {
+  padding: 0;
+  color: #dcddde;
+  font-size: 13px;
+  line-height: 1.4;
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+#noteTextarea {
+  width: 100%;
+  height: 100%;
+  min-height: 100%;
+  min-width: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  background: #23272a;
+  border: none;
+  color: #fff;
+  border-radius: 0;
+  padding: 12px;
+  font-size: 15px;
+  resize: none;
+  font-family: inherit;
+  box-sizing: border-box;
+  outline: none;
+  overflow: hidden;
+  scrollbar-width: none; /* Firefox */
+}
+#noteTextarea::-webkit-scrollbar {
+  display: none; /* Chrome, Safari */
+}
+
+#noteTextarea:focus {
+  outline: none;
+  border-color: #5865f2;
+}
+
+.oyunbul-window {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.45); /* Saydam arka plan */
+  z-index: 20000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(12px); /* Bulanık arka plan */
+}
+.oyunbul-window-content {
+  width: 1000px;
+  height: 600px;
+  background: #23272a;
+  border-radius: 18px;
+  box-shadow: 0 8px 32px 0 rgba(0,0,0,0.25);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 32px 24px 24px 24px;
+  position: relative;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.oyunbul-window-content::after {
+  content: '';
+  position: absolute;
+  bottom: 70px;
+  left: 40px;
+  right: 40px;
+  height: 2px;
+  background: #fff2;
+}
+.oyunbul-title {
+  color: #fff;
+  font-size: 22px;
+  font-weight: 600;
+  margin: -10px 0 15px 0;
+  text-align: center;
+  letter-spacing: 1px;
+  border-bottom: 2px solid #fff2;
+  padding-bottom: 8px;
+  width: 100%;
+  position: relative;
+  z-index: 3;
+}
+
+.oyunbul-close-btn {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+  z-index: 10;
+}
+
+.oyunbul-close-btn:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.oyunbul-close-btn img {
+  filter: brightness(0) invert(1);
+  opacity: 0.8;
+  transition: opacity 0.2s;
+}
+
+.oyunbul-close-btn:hover img {
+  opacity: 1;
+}
+
+.sunucubul-window {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.45);
+  z-index: 20000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(12px);
+}
+.sunucubul-window-content {
+  width: 1000px;
+  height: 600px;
+  background: #23272a;
+  border-radius: 18px;
+  box-shadow: 0 8px 32px 0 rgba(0,0,0,0.25);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 32px 24px 24px 24px;
+  position: relative;
+}
+.sunucubul-title {
+  color: #fff;
+  font-size: 28px;
+  font-weight: 600;
+  margin: 0 0 18px 0;
+  text-align: center;
+  letter-spacing: 1px;
+  border-bottom: 2px solid #fff2;
+  padding-bottom: 8px;
+  width: 100%;
+}
+
+.sunucubul-close-btn {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+  z-index: 10;
+}
+
+.sunucubul-close-btn:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.sunucubul-close-btn img {
+  filter: brightness(0) invert(1);
+  opacity: 0.8;
+  transition: opacity 0.2s;
+}
+
+.sunucubul-close-btn:hover img {
+  opacity: 1;
+}
+
+.face-close-btn {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+  z-index: 10;
+}
+
+.face-close-btn:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.face-close-btn img {
+  filter: brightness(0) invert(1);
+  opacity: 0.8;
+  transition: opacity 0.2s;
+}
+
+.face-close-btn:hover img {
+  opacity: 1;
+}
+
+.face-window-content-group {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 32px;
+}
+.face-side-window {
+  width: 250px;
+  height: 400px;
+  background: #23272a;
+  border-radius: 28px;
+  box-shadow: 0 8px 32px 0 rgba(0,0,0,0.18);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 24px 16px 16px 16px;
+  position: relative;
+  align-self: center;
+}
+
+.music-window {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 250px;
+  height: 400px;
+  background: none;
+  z-index: 20000;
+  display: none;
+  align-items: flex-start;
+  justify-content: flex-start;
+  box-shadow: none;
+}
+.music-window-content {
+  width: 250px;
+  height: 550px;
+  background: #23272a;
+  border-radius: 10px;
+  box-shadow: 0 8px 32px 0 rgba(0,0,0,0.18);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 24px 16px 16px 16px;
+  position: relative;
+}
+.music-title {
+  color: #fff;
+  font-size: 16px;
+  font-style: oblique;
+  font-weight: 500;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  letter-spacing: 1px;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: transparent;
+}
+.music-media-controls {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  position: absolute;
+  bottom: 18px;
+  left: 0;
+  padding: 0 0 0 0;
+}
+.music-media-controls button {
+  background: #36393f;
+  border: none;
+  border-radius: 50%;
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 18px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.music-media-controls button:hover {
+  background: #5865f2;
+}
+
+/* Etkinlik penceresi stilleri */
+.etkinlik-window {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.45);
+  z-index: 20000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(12px);
+}
+
+.etkinlik-window-content {
+  width: 1307px;
+  height: 815px;
+  background: #23272a;
+  border-radius: 18px;
+  box-shadow: 0 8px 32px 0 rgba(0,0,0,0.25);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 32px 24px 24px 24px;
+  position: relative;
+}
+
+.etkinlik-title {
+  color: #fff;
+  font-size: 28px;
+  font-weight: 600;
+  margin: 0 0 18px 0;
+  text-align: center;
+  letter-spacing: 1px;
+  border-bottom: 2px solid #fff2;
+  padding-bottom: 8px;
+  width: 100%;
+}
+
+.etkinlik-close-btn {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+  z-index: 10;
+}
+
+.etkinlik-close-btn:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.etkinlik-close-btn img {
+  filter: brightness(0) invert(1);
+  opacity: 0.8;
+  transition: opacity 0.2s;
+}
+
+.etkinlik-close-btn:hover img {
+  opacity: 1;
+}
+
+/* Oyun Arama Kutusu */
+.oyun-search-container {
+  display: flex;
+  justify-content: center;
+  margin: 15px 0 10px 0;
+  padding: 0 20px;
+  position: relative;
+  z-index: 2;
+}
+
+.oyun-search-input {
+  width: 250px;
+  padding: 10px 14px;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  font-size: 13px;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.oyun-search-input::placeholder {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.oyun-search-input:focus {
+  border-color: rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+}
+
+/* Oyun Butonları Stilleri */
+.oyun-buttons-container {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 4px;
+  margin-top: 20px;
+  padding: 0 20px;
+  max-height: 350px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.rank-buttons-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  margin-top: 100px;
+  padding: 0 20px;
+  position: relative;
+  z-index: 1;
+}
+
+.geri-btn {
+  position: absolute;
+  top: -170px;
+  left: -40px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 6px;
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  z-index: 10;
+}
+
+.geri-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateX(-2px);
+}
+
+.dil-buttons-container .geri-btn {
+  left: 0px;
+}
+
+
+
+.geri-text {
+  color: #fff;
+  font-size: 12px;
+  font-weight: 500;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.rank-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  min-height: 100px;
+  transition: transform 0.2s ease;
+}
+
+.rank-btn:hover {
+  transform: scale(1.05);
+}
+
+.rank-icon {
+  width: 100px;
+  height: 100px;
+  margin-bottom: 8px;
+  filter: none;
+  object-fit: cover;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.rank-name {
+  font-size: 12px;
+  color: #fff;
+  text-align: center;
+  font-weight: 500;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.dil-buttons-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+  margin-top: 100px;
+  padding: 0 20px;
+  position: relative;
+  z-index: 1;
+}
+
+.dil-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+.dil-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  padding: 8px;
+  cursor: pointer;
+  min-height: 90px;
+  transition: transform 0.2s ease;
+}
+
+.dil-btn:hover {
+  transform: scale(1.05);
+}
+
+.dil-icon {
+  width: 70px;
+  height: 70px;
+  margin-bottom: 6px;
+  filter: none;
+  object-fit: cover;
+  border-radius: 10px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+}
+
+.dil-name {
+  font-size: 11px;
+  color: #fff;
+  text-align: center;
+  font-weight: 500;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.oyun-buttons-container::-webkit-scrollbar {
+  display: none;
+}
+
+.oyun-buttons-container {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.oyun-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  padding: 8px;
+  cursor: pointer;
+  min-height: 70px;
+}
+
+
+
+
+.oyun-icon {
+  width: 60px;
+  height: 60px;
+  margin-bottom: 6px;
+  filter: none;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.selected-game-display {
+  position: absolute;
+  bottom: 3px;
+  left: calc(50% - 170px);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 40px;
+  z-index: 10;
+}
+
+.selected-game-icon,
+.selected-rank-icon,
+.selected-dil-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+}
+
+.selected-game-img,
+.selected-rank-img,
+.selected-dil-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.arama-baslat-btn {
+  background: linear-gradient(135deg, #007bff, #0056b3);
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 10px 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  margin-left: 120px;
+}
+
+.arama-baslat-btn:hover {
+  background: linear-gradient(135deg, #0056b3, #004085);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 123, 255, 0.4);
+}
+
+.arama-baslat-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(0, 123, 255, 0.3);
+}
+
+
+
+
 
